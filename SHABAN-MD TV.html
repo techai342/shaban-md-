@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, shrink-to-fit=yes">
+  <title>Shaban Md Tv - Live Channels | Free Live TV Streaming</title>
+  <meta name="description" content="Shaban Md Tv offers free live streaming of Pakistani and international TV channels including Sports, News, Entertainment, Kids, Islamic, and more. Watch PSL 2026, Geo News, ARY Digital, Hum TV, and 100+ channels absolutely free on your mobile.">
+  <meta name="keywords" content="live tv, free live tv, pakistani channels, PSL live, geo news live, ary digital live, hum tv live, sports live, shaban md tv, tamasha live, jazz free tv, free live streaming">
+  <meta name="author" content="Team-Bandaheali">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Shaban Md Tv - Free Live TV Streaming">
+  <meta property="og:description" content="Watch free live Pakistani TV channels - Sports, News, Entertainment, Kids & more. No subscription needed.">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://shabanmd.tv/">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest">
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background: #06060b;
+      color: #e0e0e0;
+      padding: 12px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overscroll-behavior: contain;
+    }
+
+    .header {
+      padding: 12px 4px 6px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #f9a825, #ff6f00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2px;
+      letter-spacing: -0.5px;
+    }
+
+    .header p {
+      color: #9e9e9e;
+      font-size: 0.75rem;
+    }
+
+    .video-container {
+      background: #000;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+      position: relative;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      background: #111;
+      max-height: 80vh;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      background: #000;
+      playsinline: true;
+      webkit-playsinline: true;
+    }
+
+    video::-webkit-media-controls-fullscreen-button {
+      display: block !important;
+    }
+
+    video:fullscreen {
+      object-fit: contain;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    video:-webkit-full-screen {
+      object-fit: contain;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    video:-moz-full-screen {
+      object-fit: contain;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    video:-ms-fullscreen {
+      object-fit: contain;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    @media (orientation: landscape) {
+      .video-container {
+        max-height: 70vh;
+        aspect-ratio: auto;
+        height: 70vh;
+      }
+      
+      video {
+        object-fit: contain;
+        height: 100%;
+        width: 100%;
+      }
+      
+      body {
+        padding: 8px;
+      }
+      
+      .header h1 {
+        font-size: 1.4rem;
+      }
+      
+      .header p {
+        font-size: 0.65rem;
+      }
+    }
+
+    @media (orientation: portrait) {
+      .video-container {
+        aspect-ratio: 16 / 9;
+        max-height: 50vh;
+      }
+    }
+
+    .now-playing {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: #bbb;
+      display: block;
+      margin-bottom: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      border: 1px solid rgba(249, 168, 37, 0.25);
+      text-align: center;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 0.65rem;
+      color: #888;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .stats-bar span {
+      background: rgba(255,255,255,0.03);
+      padding: 4px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .search-box {
+      display: flex;
+      margin-bottom: 10px;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #14141e;
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: #f9a825;
+      box-shadow: 0 0 18px rgba(249, 168, 37, 0.15);
+      background: #1a1a28;
+    }
+
+    .search-box input::placeholder {
+      color: #666;
+    }
+
+    .search-box button {
+      padding: 12px 18px;
+      border-radius: 26px;
+      background: linear-gradient(135deg, #f9a825, #ff6f00);
+      color: #000;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+
+    .search-box button:active {
+      opacity: 0.8;
+    }
+
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding-bottom: 2px;
+    }
+
+    .category-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-tab {
+      padding: 7px 14px;
+      border-radius: 20px;
+      background: #14141e;
+      color: #aaa;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.75rem;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+
+    .cat-tab.active {
+      background: #f9a825;
+      color: #000;
+      font-weight: 700;
+      border-color: #f9a825;
+      box-shadow: 0 4px 14px rgba(249, 168, 37, 0.3);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+      gap: 10px;
+      padding-bottom: 20px;
+    }
+
+    .channel-card {
+      background: #12121c;
+      border-radius: 18px;
+      padding: 14px 8px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      border: 2px solid transparent;
+      background-clip: padding-box;
+      position: relative;
+      height: 100%;
+      justify-content: flex-start;
+      min-height: 215px;
+      will-change: transform;
+      z-index: 1;
+    }
+
+    .channel-card::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 20px;
+      padding: 2px;
+      background: linear-gradient(135deg, rgba(249, 168, 37, 0.4), rgba(255, 111, 0, 0.2), rgba(255, 255, 255, 0.05));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .channel-card.playing {
+      border: 2px solid #f9a825;
+      box-shadow: 0 0 24px rgba(249, 168, 37, 0.5), 0 0 48px rgba(249, 168, 37, 0.2);
+      background: #1e1e2e;
+      animation: glowPulse 1.8s ease-in-out infinite;
+    }
+
+    .channel-card.playing::before {
+      background: linear-gradient(135deg, #f9a825, #ff6f00, #f9a825);
+      animation: borderGlow 1.8s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(249, 168, 37, 0.45), 0 0 40px rgba(249, 168, 37, 0.15);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(249, 168, 37, 0.7), 0 0 60px rgba(249, 168, 37, 0.3);
+      }
+    }
+
+    @keyframes borderGlow {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.6;
+      }
+    }
+
+    .channel-card:active {
+      transform: scale(0.94);
+      background: #1e1e30;
+    }
+
+    .view-count-badge {
+      background: rgba(249, 168, 37, 0.15);
+      color: #f9a825;
+      font-size: 0.55rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-top: 4px;
+      z-index: 1;
+      display: none;
+    }
+
+    .view-count-badge.show {
+      display: block;
+    }
+
+    .logo-box {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #1a1a2a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.06);
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .channel-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin: 6px 0 4px;
+      line-height: 1.3;
+      color: #f0f0f0;
+      word-break: break-word;
+      z-index: 1;
+    }
+
+    .channel-desc {
+      font-size: 0.68rem;
+      color: #999;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-top: 4px;
+      word-break: break-word;
+      z-index: 1;
+    }
+
+    .live-badge {
+      background: #e53935;
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-top: 8px;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .no-results {
+      text-align: center;
+      color: #777;
+      padding: 30px;
+      font-size: 0.9rem;
+      grid-column: 1 / -1;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px 10px 10px;
+      color: #666;
+      font-size: 0.7rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: auto;
+    }
+
+    .footer a {
+      color: #f9a825;
+      text-decoration: none;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #f9a825;
+      border-radius: 8px;
+    }
+
+    .wake-lock-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00ff99;
+      margin-left: 6px;
+      animation: wakePulse 2s infinite;
+      vertical-align: middle;
+    }
+
+    .wake-lock-indicator.inactive {
+      background: #666;
+      animation: none;
+    }
+
+    @keyframes wakePulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 4px #00ff99; }
+      50% { opacity: 0.4; box-shadow: 0 0 8px #00ff99; }
+    }
+
+    @media (max-width: 480px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      .header h1 {
+        font-size: 1.6rem;
+      }
+      .channel-card {
+        min-height: 195px;
+        padding: 12px 6px 8px;
+      }
+      .logo-box {
+        width: 58px;
+        height: 58px;
+      }
+      .search-box input {
+        font-size: 0.85rem;
+        padding: 10px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>SHABAN-MD</h1>
+    <p>Jazz Sim Free Live Tv No Data Charge & Premium Live Channels</p>
+  </div>
+
+  <div class="video-container" id="playerWrapper">
+    <video id="videoPlayer" controls playsinline autoplay muted webkit-playsinline></video>
+  </div>
+
+  <div class="now-playing" id="nowPlaying">▶ Select a channel to start watching</div>
+
+  <div class="stats-bar" id="statsBar">
+    <span id="totalViews">📊 Total Views Loading...</span>
+    <span id="todayViews">📅 Today Loading...</span>
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search channel... e.g. Geo, News, PSL" autocomplete="off">
+    <button id="clearSearchBtn">✕</button>
+  </div>
+
+  <div class="category-tabs" id="categoryTabs"></div>
+
+  <div class="grid" id="channelGrid"></div>
+
+  <div class="footer">
+    <p>Shaban Md Tv - Watch 100+ Free Live TV Channels including PSL 2026, Geo News, ARY Digital, Hum TV, BBC News, Cartoon Network, Discovery HD, Islamic Channels, Regional Channels & more. No subscription, no data charges on Jazz SIM. Free 24/7 live streaming of Pakistani and international channels.</p>
+    <p style="margin-top:8px;">Powered By <strong>Team-Bandaheali <span id="currentYear">2025</span></strong></p>
+  </div>
+
+  <script>
+    (function() {
+      // =============================================
+      // 🔥 JSONBIN.IO CONFIGURATION
+      // =============================================
+      const BIN_ID = '69fb7fb3c0954111d8e76120';
+      const MASTER_KEY = '$2a$10$232w0UsF/XfE3x5iv5UUdu/CibnAp3vM6NSl2UB4XLBYox6D1e.Om';
+      const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+      
+      let cachedData = null;
+
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+      function getToday() {
+        return new Date().toISOString().split('T')[0];
+      }
+
+      // ========== READ FROM JSONBIN ==========
+      async function readBin() {
+        try {
+          const res = await fetch(API_URL + '/latest', {
+            headers: { 'X-Master-Key': MASTER_KEY }
+          });
+          const json = await res.json();
+          cachedData = json.record;
+          
+          if (cachedData.date !== getToday()) {
+            cachedData.today = 0;
+            cachedData.date = getToday();
+            await writeBin(cachedData);
+          }
+          
+          return cachedData;
+        } catch(e) {
+          console.log('⚠️ JSONBin offline, using cache');
+          return cachedData || { total: 0, today: 0, date: getToday(), channels: {} };
+        }
+      }
+
+      // ========== WRITE TO JSONBIN ==========
+      async function writeBin(data) {
+        try {
+          await fetch(API_URL, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Master-Key': MASTER_KEY
+            },
+            body: JSON.stringify(data)
+          });
+          cachedData = data;
+        } catch(e) {
+          console.log('⚠️ Could not save to JSONBin');
+        }
+      }
+
+      // ========== VIEW TRACKING ==========
+      async function trackChannelView(channelName, channelSlug, channelCategory) {
+        if (!channelSlug) return;
+        
+        const now = Date.now();
+        const lastTrackKey = 'last_track_' + channelSlug;
+        const lastTrack = localStorage.getItem(lastTrackKey);
+        
+        if (lastTrack && (now - parseInt(lastTrack)) < 30000) return;
+        
+        localStorage.setItem(lastTrackKey, now.toString());
+        
+        const data = await readBin();
+        
+        data.total += 1;
+        data.today += 1;
+        data.date = getToday();
+        data.channels[channelSlug] = (data.channels[channelSlug] || 0) + 1;
+        
+        await writeBin(data);
+        
+        updateStatsBar(data);
+        updateViewCountBadges(data.channels);
+        
+        console.log('✅ View tracked: ' + channelName + ' | Total: ' + data.total);
+      }
+
+      // ========== UPDATE STATS BAR ==========
+      function updateStatsBar(data) {
+        document.getElementById('totalViews').textContent = '📊 Total Visitors ' + (data ? data.total : 0);
+        document.getElementById('todayViews').textContent = '📅 Today ' + (data ? data.today : 0);
+      }
+
+      // ========== UPDATE CHANNEL BADGES ==========
+      function updateViewCountBadges(channelViews) {
+        document.querySelectorAll('.channel-card').forEach(card => {
+          const slug = card.getAttribute('data-slug');
+          const badge = card.querySelector('.view-count-badge');
+          if (badge && slug && channelViews && channelViews[slug] && channelViews[slug] > 0) {
+            badge.textContent = '👁 ' + channelViews[slug] + ' views';
+            badge.classList.add('show');
+          }
+        });
+      }
+
+      // ========== INITIAL LOAD ==========
+      async function loadInitialData() {
+        const data = await readBin();
+        updateStatsBar(data);
+        if (data.channels) updateViewCountBadges(data.channels);
+      }
+
+      // ========== PERIODIC REFRESH (Every 10 sec) ==========
+      setInterval(async () => {
+        const data = await readBin();
+        updateStatsBar(data);
+        if (data.channels) updateViewCountBadges(data.channels);
+      }, 10000);
+
+      // ========== WAKE LOCK ==========
+      let wakeLock = null;
+      const wakeIndicator = document.getElementById('wakeIndicator');
+
+      async function requestWakeLock() {
+        if ('wakeLock' in navigator) {
+          try {
+            wakeLock = await navigator.wakeLock.request('screen');
+            wakeLock.addEventListener('release', () => {
+              if (!videoPlayer.paused) requestWakeLock();
+            });
+          } catch (err) {
+            enableFallbackNoSleep();
+          }
+        } else {
+          enableFallbackNoSleep();
+        }
+      }
+
+      async function releaseWakeLock() {
+        if (wakeLock !== null) {
+          try { await wakeLock.release(); wakeLock = null; } catch (err) {}
+        }
+        disableFallbackNoSleep();
+      }
+
+      let noSleepVideo = null;
+
+      function enableFallbackNoSleep() {
+        if (noSleepVideo) return;
+        noSleepVideo = document.createElement('video');
+        noSleepVideo.setAttribute('playsinline', '');
+        noSleepVideo.setAttribute('webkit-playsinline', '');
+        noSleepVideo.setAttribute('muted', '');
+        noSleepVideo.setAttribute('loop', '');
+        noSleepVideo.style.cssText = 'position:fixed;top:0;left:0;width:2px;height:2px;opacity:0;pointer-events:none;z-index:-1;';
+        noSleepVideo.src = 'data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMWlzb0AAAAAA';
+        document.body.appendChild(noSleepVideo);
+        noSleepVideo.play().catch(() => {});
+      }
+
+      function disableFallbackNoSleep() {
+        if (noSleepVideo) {
+          noSleepVideo.pause();
+          noSleepVideo.remove();
+          noSleepVideo = null;
+        }
+      }
+
+      // ========== DIRECT STREAM CHANNELS (ALL CHANNELS USE DIRECT URLs) ==========
+      const directStreamChannels = {
+        "Hi-Dost": "https://cdn-1.pishow.tv/live/224/master.m3u8",
+        "GS-TV": "https://online.godstands.tv:5443/WebRTCApp/streams/mainlive.m3u8",
+        "GEO-INTERTENMET-HD": "https://jk3lz82elw79-hls-live.5centscdn.com/harPalGeo/955ad3298db330b5ee880c2c9e6f23a0.sdp/playlist.m3u8",
+        "ISAAC-TV": "https://livecdn.live247stream.com/isaac/tv/playlist.m3u8",
+        "JOSHUA-TV": "https://livecdn.live247stream.com/joshua/tv/playlist.m3u8",
+        "KING-TV": "https://streamer12.vdn.dstreamone.net/kingtv/kingtv/playlist.m3u8",
+        "PMI-TV": "https://cdn.live247stream.com/pmi/tv/playlist.m3u8",
+        "PRAISE-TV": "https://livecdn.live247stream.com/praise/tv/playlist.m3u8",
+        "JOO-MUSIC": "https://livecdn.live247stream.com/joomusic/tv/playlist.m3u8",
+        "Manoranjan-Prime": "https://cdn-4.pishow.tv/live/1474/master.m3u8",
+        "Manoranjan-Grand": "https://cdn-1.pishow.tv/live/1011/master.m3u8",
+        "Manoranjan-TV": "https://cdn-1.pishow.tv/live/1013/master.m3u8",
+        "DD-Rajasthan": "https://cdn-1.pishow.tv/live/34/master.m3u8",
+        "DD-URDU": "https://cdn-4.pishow.tv/live/8/master.m3u8",
+        "DD-PUNJABI": "https://cdn-4.pishow.tv/live/24/master.m3u8",
+        "DD-SPORTS": "https://cdn-6.pishow.tv/live/13/master.m3u8",
+        "DAHRASHNA": "https://cdn-2.pishow.tv/live/1453/master.m3u8",
+        "GoldMines": "https://cdn-2.pishow.tv/live/1459/master.m3u8",
+        "GoldMines-2": "https://cdn-2.pishow.tv/live/1460/master.m3u8",
+        "GoldMines-Movies": "https://cdn-2.pishow.tv/live/1461/master.m3u8",
+        "B4U-MOVIES": "https://cdn-2.pishow.tv/live/419/master.m3u8",
+        "B4U-KADAK": "https://cdn-2.pishow.tv/live/227/master.m3u8",
+        "B4U-MUSIC": "https://cdn-2.pishow.tv/live/415/master.m3u8",
+        "MUSIC-INDIA": "https://cdn-2.pishow.tv/live/226/master.m3u8",
+        "9X-Tashan": "https://cdn-2.pishow.tv/live/1613/master.m3u8",
+        "9X-Jhakhaas": "https://cdn-3.pishow.tv/live/6/master.m3u8",
+        "PITAARA-TV": "https://vg-pitaaratvlive.akamaized.net/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/vglive-sk-583798/playlist.m3u8",
+        "GTC-PUNJABI": "https://gtc-yupp.vgcdn.net/vglive-sk-254807/index.m3u8",
+        "PUNJABI-HITS": "https://stream.ottlive.co.in/punjabihits/index.m3u8",
+        "PTC-Chakde": "https://cdn-1.pishow.tv/live/449/master.m3u8",
+        "PTC-PUNJABI": "https://cdn-2.pishow.tv/live/1604/master.m3u8",
+        "PTC-PUNJABI-CLF": "https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/3e22a9c278db4e3eb779afd42e41b0a6/index.m3u8",
+        "PTC-PUNJABI-GOLD": "https://cdn-7.pishow.tv/live/450/master.m3u8",
+        "PTC-PUNJABI-GOLD-CLF": "https://d3qs3d2rkhfqrt.cloudfront.net/out/v1/6e14bac6d0384e129521a4d005188bfb/index.m3u8",
+        "PTC-SIMRAN": "https://cdn-6.pishow.tv/live/1503/master.m3u8",
+        "PTC-MUSIC": "https://cdn-3.pishow.tv/live/1501/master.m3u8",
+        "PTC-MUSIC-CLF": "https://d2lk5u59tns74c.cloudfront.net/out/v1/f913cf893c594f73b114216e74a2efbc/index.m3u8",
+        "Balle-Balle": "https://cdn-4.pishow.tv/live/987/master.m3u8",
+        "Tabbar-Hits": "https://cdn-4.pishow.tv/live/1504/master.m3u8",
+        "SteelBirds-Music": "https://cdn2.in/SteelbirdMusicTVhls/live.m3u8",
+        "Maha-Punjabi": "https://cdn-4.pishow.tv/live/1521/master.m3u8",
+        "DESI-CHANNEL": "https://livestream.unlimitedcdn.com/agm-dc/desi-channel/index.m3u8",
+        "ChardiKla-TIME": "https://cdn-4.pishow.tv/live/1627/master.m3u8",
+        "ChardiKla-Time-CLF": "https://chardikalagurbanitv.gigabitcdn.net/in-chardikala/chardikala-timetv/playlist.m3u8",
+        "Semaroo-TV": "https://cdn-3.pishow.tv/live/230/master.m3u8",
+        "DANGAL": "https://live-dangal.akamaized.net/liveabr/playlist.m3u8",
+        "DANGAL-2": "https://live-dangal2.akamaized.net/liveabr/playlist.m3u8",
+        "BHOJPURI-CINEMA": "https://cdn-4.pishow.tv/live/1033/master.m3u8",
+        "Channel-Win": "https://cdn-4.pishow.tv/live/229/master.m3u8",
+        "OSCAR-MOVIES": "https://cdn-4.pishow.tv/live/233/master.m3u8",
+        "Movie-Club": "https://sis-global.prod.samsungtv.plus/v1/tvpprd/sc-mp2ar4ca425xo.m3u8",
+        "Tahzeeb-Islamic": "https://cdn-4.pishow.tv/live/239/master.m3u8",
+        "Enter10": "https://cdn-4.pishow.tv/live/241/master.m3u8",
+        "FOOD-FOOD": "https://cdn-6.pishow.tv/live/267/master.m3u8",
+        "EPIC-TV": "https://cc-czbq30x55knit.akamaized.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-czbq30x55knit/DIYC/PMSL/IN10/Epic_TV_IN_B/Epic_TV_IN_B.m3u8",
+        "ABP-NEWS": "https://d2l4ar6y3mrs4k.cloudfront.net/live-streaming/abpnews-livetv/master.m3u8",
+        "AajTak-News": "https://feeds.intoday.in/aajtak/api/master.m3u8",
+        "NEWS-18-Punjabi": "https://n18syndication.akamaized.net/bpk-tv/News18_Punjab_Haryana_HP_NW18_MOB/output01/master.m3u8",
+        "AL-Jazeera-Direct": "https://cdn-7.pishow.tv/live/429/master.m3u8",
+        "DW-NEWS-Direct": "https://cdn-7.pishow.tv/live/431/master.m3u8",
+        "TRT-WORLD": "https://cdn-7.pishow.tv/live/266/master.m3u8",
+        "CNBC-TV18": "https://n18syndication.akamaized.net/bpk-tv/CNBC_TV18_NW18_MOB/output01/index.m3u8",
+        "CNBC-TV18-PRIME": "https://n18syndication.akamaized.net/bpk-tv/CNBC_Tv18_Prime_HD_NW18_MOB/output01/index.m3u8",
+        "GOOD-NEWS": "https://bpgdlwwar3ze-hls-live.wmncdn.net/goodnews/live.stream/playlist.m3u8",
+        // Tamashaweb Direct URLs
+        "ARYnews": "https://cdn05khi.tamashaweb.com:8087/jazzauth/ARYnews-abr/playlist.m3u8",
+        "TvToday": "https://cdn21lhr.tamashaweb.com:8087/jazzauth/TvToday-abr/playlist.m3u8",
+        "BBCNEWS": "https://cdn02khi.tamashaweb.com:8087/jazzauth/BBCNEWS-abr/playlist.m3u8",
+        "PTVNews": "https://cdn21lhr.tamashaweb.com:8087/jazzauth/PTVNews-abr/playlist.m3u8",
+        "DawnNews": "https://cdn23lhr.tamashaweb.com:8087/jazzauth/DawnNews-abr/playlist.m3u8",
+        "PaighamTV": "https://cdn02khi.tamashaweb.com:8087/jazzauth/PaighamTV-abr/playlist.m3u8",
+        "SUN-NEWS": "https://cdn21lhr.tamashaweb.com:8087/jazzauth/SUN-NEWS-abr/playlist.m3u8",
+        "Digital-pak": "https://cdn22lhr.tamashaweb.com:8087/jazzauth/Digital-pak-abr/playlist.m3u8",
+        "Tamasha-Life-HD": "https://cdn22lhr.tamashaweb.com:8087/jazzauth/Tamasha-Life-HD-abr/playlist.m3u8",
+        "BBC-Lifestyle": "https://cdn22lhr.tamashaweb.com:8087/jazzauth/BBC-Lifestyle-abr/playlist.m3u8",
+        "PTVSports": "https://cdn05khi.tamashaweb.com:8087/jazzauth/PTVSports-abr/playlist.m3u8",
+        "BBC-Earth": "https://cdn02khi.tamashaweb.com:8087/jazzauth/BBC-Earth-abr/playlist.m3u8",
+        "ARYdigital": "https://cdn12isb.tamashaweb.com:8087/jazzauth/ARYdigital-abr/playlist.m3u8",
+        "Discovery-Science": "https://cdn01khi.tamashaweb.com:8087/jazzauth/Discovery-Science-abr/playlist.m3u8",
+        "PTVHome": "https://cdn24lhr.tamashaweb.com:8087/jazzauth/PTVHome-abr/playlist.m3u8",
+        "GeoEntertainment": "https://cdn05khi.tamashaweb.com:8087/jazzauth/GeoEntertainment-abr/playlist.m3u8",
+        "samaaTV": "https://cdn07isb.tamashaweb.com:8087/jazzauth/samaaTV-abr/playlist.m3u8",
+        "BBC-First": "https://cdn05khi.tamashaweb.com:8087/jazzauth/BBC-First-abr/playlist.m3u8",
+        "BBC-Cbeebies": "https://cdn05khi.tamashaweb.com:8087/jazzauth/BBC-Cbeebies-abr/playlist.m3u8",
+        "Eurosport": "https://cdn01khi.tamashaweb.com:8087/jazzauth/Eurosport-abr/playlist.m3u8",
+        "CgtnHD": "https://cdn05khi.tamashaweb.com:8087/jazzauth/CgtnHD-abr/playlist.m3u8",
+        "PTVWorld": "https://cdn02khi.tamashaweb.com:8087/jazzauth/PTVWorld-abr/playlist.m3u8",
+        "BBC-Brit": "https://cdn09isb.tamashaweb.com:8087/jazzauth/BBC-Brit-abr/playlist.m3u8",
+        "CgtnDocumentary": "https://cdn02lhr.tamashaweb.com:8087/jazzauth/CgtnDocumentary-abr/playlist.m3u8",
+        "DiscoveryHD": "https://cdn12isb.tamashaweb.com:8087/jazzauth/DiscoveryHD-abr/playlist.m3u8",
+        "Travel-Channel": "https://cdn22lhr.tamashaweb.com:8087/jazzauth/Travel-Channel-abr/playlist.m3u8",
+        "Green_Entertainment": "https://cdn22lhr.tamashaweb.com:8087/jazzauth/Green_Entertainment-abr/playlist.m3u8",
+        "humnews": "https://cdn21lhr.tamashaweb.com:8087/jazzauth/humnews-abr/playlist.m3u8",
+        "Discovery-Investigation": "https://cdn05khi.tamashaweb.com:8087/jazzauth/Discovery-Investigation-abr/playlist.m3u8",
+        "humTV": "https://cdn05khi.tamashaweb.com:8087/jazzauth/humTV-abr/playlist.m3u8",
+        "Discovery-Turbo": "https://cdn12isb.tamashaweb.com:8087/jazzauth/Discovery-Turbo-abr/playlist.m3u8",
+        "Inplus": "https://cdn02lhr.tamashaweb.com:8087/jazzauth/Inplus-abr/playlist.m3u8",
+        "BolEntertainment": "https://cdn02khi.tamashaweb.com:8087/jazzauth/BolEntertainment-abr/playlist.m3u8",
+        "PTVNational": "https://cdn02khi.tamashaweb.com:8087/jazzauth/PTVNational-abr/playlist.m3u8",
+        "expressnews": "https://cdn02khi.tamashaweb.com:8087/jazzauth/expressnews-abr/playlist.m3u8",
+        "hummasala": "https://cdn23lhr.tamashaweb.com:8087/jazzauth/hummasala-abr/playlist.m3u8",
+        "AajNews": "https://cdn02lhr.tamashaweb.com:8087/jazzauth/AajNews-abr/playlist.m3u8",
+        "AL-Jazeera": "https://cdn05khi.tamashaweb.com:8087/jazzauth/AL-Jazeera-abr/playlist.m3u8",
+        "ARYzindagi": "https://cdn01khi.tamashaweb.com:8087/jazzauth/ARYzindagi-abr/playlist.m3u8",
+        "ExpressEntertainment": "https://cdn02khi.tamashaweb.com:8087/jazzauth/ExpressEntertainment-abr/playlist.m3u8",
+        "HumSitaray": "https://cdn01khi.tamashaweb.com:8087/jazzauth/HumSitaray-abr/playlist.m3u8",
+        "Livecnn": "https://cdn05khi.tamashaweb.com:8087/jazzauth/Livecnn-abr/playlist.m3u8",
+        "NeoNews": "https://cdn05khi.tamashaweb.com:8087/jazzauth/NeoNews-abr/playlist.m3u8",
+        "SetEntertainment": "https://cdn21lhr.tamashaweb.com:8087/jazzauth/SetEntertainment-abr/playlist.m3u8",
+        "cartoonnetwork": "https://cdn22lhr.tamashaweb.com:8087/jazzauth/cartoonnetwork-abr/playlist.m3u8",
+        "BolNews": "https://cdn01khi.tamashaweb.com:8087/jazzauth/BolNews-abr/playlist.m3u8",
+        "Minimax": "https://cdn01khi.tamashaweb.com:8087/jazzauth/Minimax-abr/playlist.m3u8",
+        "AAN-TV": "https://cdn01khi.tamashaweb.com:8087/jazzauth/AAN-TV-abr/playlist.m3u8",
+        "TVOne": "https://cdn07isb.tamashaweb.com:8087/jazzauth/TVOne-abr/playlist.m3u8",
+        "Suno_News": "https://cdn05khi.tamashaweb.com:8087/jazzauth/Suno_News-abr/playlist.m3u8",
+        "GTVNews": "https://cdn05khi.tamashaweb.com:8087/jazzauth/GTVNews-abr/playlist.m3u8",
+        "SabTV": "https://cdn07isb.tamashaweb.com:8087/jazzauth/SabTV-abr/playlist.m3u8",
+        "ABNnews": "https://cdn23lhr.tamashaweb.com:8087/jazzauth/ABNnews-abr/playlist.m3u8",
+        "Madni": "https://cdn21lhr.tamashaweb.com:8087/jazzauth/Madni-abr/playlist.m3u8",
+        "GNN": "https://cdn23lhr.tamashaweb.com:8087/jazzauth/GNN-abr/playlist.m3u8",
+        "Filmax": "https://cdn23lhr.tamashaweb.com:8087/jazzauth/Filmax-abr/playlist.m3u8",
+        "KashishTV": "https://cdn05khi.tamashaweb.com:8087/jazzauth/KashishTV-abr/playlist.m3u8",
+        "PTVBolan": "https://cdn02lhr.tamashaweb.com:8087/jazzauth/PTVBolan-abr/playlist.m3u8",
+        "sindhTV": "https://cdn07isb.tamashaweb.com:8087/jazzauth/sindhTV-abr/playlist.m3u8",
+        "city21": "https://cdn22lhr.tamashaweb.com:8087/jazzauth/city21-abr/playlist.m3u8",
+        "BabyTV": "https://cdn02lhr.tamashaweb.com:8087/jazzauth/BabyTV-abr/playlist.m3u8",
+        "Nick-Jr": "https://cdn12isb.tamashaweb.com:8087/jazzauth/Nick-Jr-abr/playlist.m3u8",
+        "365News": "https://cdn21lhr.tamashaweb.com:8087/jazzauth/365News-abr/playlist.m3u8",
+        "MovieOne": "https://cdn01khi.tamashaweb.com:8087/jazzauth/MovieOne-abr/playlist.m3u8",
+        "AurLife": "https://cdn07isb.tamashaweb.com:8087/jazzauth/AurLife-abr/playlist.m3u8",
+        "LTNFamily": "https://cdn23lhr.tamashaweb.com:8087/jazzauth/LTNFamily-abr/playlist.m3u8",
+        "ktnNews": "https://cdn22lhr.tamashaweb.com:8087/jazzauth/ktnNews-abr/playlist.m3u8",
+        "24News": "https://cdn05khi.tamashaweb.com:8087/jazzauth/24News-abr/playlist.m3u8",
+        "DiscoveryPakistan": "https://cdn12isb.tamashaweb.com:8087/jazzauth/DiscoveryPakistan-abr/playlist.m3u8",
+        "RozNews": "https://cdn02khi.tamashaweb.com:8087/jazzauth/RozNews-abr/playlist.m3u8",
+        "AajEntertainment": "https://cdn12isb.tamashaweb.com:8087/jazzauth/AajEntertainment-abr/playlist.m3u8",
+        "AnimalPlanet": "https://cdn02lhr.tamashaweb.com:8087/jazzauth/AnimalPlanet-abr/playlist.m3u8",
+        "LahoreRung": "https://cdn02lhr.tamashaweb.com:8087/jazzauth/LahoreRung-abr/playlist.m3u8",
+        "NewsOne": "https://cdn01khi.tamashaweb.com:8087/jazzauth/NewsOne-abr/playlist.m3u8",
+        "MehranTV": "https://cdn01khi.tamashaweb.com:8087/jazzauth/MehranTV-abr/playlist.m3u8",
+        "PublicTV": "https://cdn05khi.tamashaweb.com:8087/jazzauth/PublicTV-abr/playlist.m3u8",
+        "A1TV": "https://cdn02lhr.tamashaweb.com:8087/jazzauth/A1TV-abr/playlist.m3u8",
+        "AVTkhyberTV": "https://cdn12isb.tamashaweb.com:8087/jazzauth/AVTkhyberTV-abr/playlist.m3u8",
+        "Channel5": "https://cdn15lhr.tamashaweb.com:8087/jazzauth/Channel5-abr/playlist.m3u8",
+        "city42(vnw)": "https://cdn02lhr.tamashaweb.com:8087/jazzauth/city42(vnw)-abr/playlist.m3u8",
+        "Metro1News": "https://cdn01khi.tamashaweb.com:8087/jazzauth/Metro1News-abr/playlist.m3u8",
+        "SindhNews": "https://cdn07isb.tamashaweb.com:8087/jazzauth/SindhNews-abr/playlist.m3u8",
+        "TimeNews": "https://cdn07isb.tamashaweb.com:8087/jazzauth/TimeNews-abr/playlist.m3u8",
+        "RohiTV": "https://cdn01khi.tamashaweb.com:8087/jazzauth/RohiTV-abr/playlist.m3u8",
+        "KhyberNews": "https://cdn05khi.tamashaweb.com:8087/jazzauth/KhyberNews-abr/playlist.m3u8",
+        "K21": "https://cdn07isb.tamashaweb.com:8087/jazzauth/K21-abr/playlist.m3u8",
+        "Saudimakkah(nw)": "https://cdn23lhr.tamashaweb.com:8087/jazzauth/Saudimakkah(nw)-abr/playlist.m3u8",
+        "SaudiSunnah(NW)": "https://cdn12isb.tamashaweb.com:8087/jazzauth/SaudiSunnah(NW)-abr/playlist.m3u8",
+        "waseeb": "https://cdn12isb.tamashaweb.com:8087/jazzauth/waseeb-abr/playlist.m3u8",
+        "play": "https://cdn21lhr.tamashaweb.com:8087/jazzauth/play-abr/playlist.m3u8",
+        "city41News": "https://cdn12isb.tamashaweb.com:8087/jazzauth/city41News-abr/playlist.m3u8",
+        "mashriqtv": "https://cdn22lhr.tamashaweb.com:8087/jazzauth/mashriqtv-abr/playlist.m3u8",
+        "DWNews": "https://cdn07isb.tamashaweb.com:8087/jazzauth/DWNews-abr/playlist.m3u8",
+        "KohinoorTV": "https://cdn07isb.tamashaweb.com:8087/jazzauth/KohinoorTV-abr/playlist.m3u8",
+        "8xm": "https://cdn02lhr.tamashaweb.com:8087/jazzauth/8xm-abr/playlist.m3u8",
+        "ktnEntertainment": "https://cdn22lhr.tamashaweb.com:8087/jazzauth/ktnEntertainment-abr/playlist.m3u8",
+        "Apna": "https://cdn12isb.tamashaweb.com:8087/jazzauth/Apna-abr/playlist.m3u8",
+        "abbtak": "https://cdn02khi.tamashaweb.com:8087/jazzauth/abbtak-abr/playlist.m3u8",
+        "jalwa": "https://cdn02lhr.tamashaweb.com:8087/jazzauth/jalwa-abr/playlist.m3u8",
+        "seeTV": "https://cdn02khi.tamashaweb.com:8087/jazzauth/seeTV-abr/playlist.m3u8",
+        "championtv": "https://cdn05khi.tamashaweb.com:8087/jazzauth/championtv-abr/playlist.m3u8",
+        "Kay2": "https://cdn07isb.tamashaweb.com:8087/jazzauth/Kay2-abr/playlist.m3u8",
+        "Pashto1": "https://cdn02lhr.tamashaweb.com:8087/jazzauth/Pashto1-abr/playlist.m3u8",
+        "PNN": "https://cdn21lhr.tamashaweb.com:8087/jazzauth/PNN-abr/playlist.m3u8",
+        "AroojTV": "https://cdn24lhr.tamashaweb.com:8087/jazzauth/AroojTV-abr/playlist.m3u8",
+        "Aplus": "https://cdn21lhr.tamashaweb.com:8087/jazzauth/Aplus-abr/playlist.m3u8",
+        "SachTV": "https://cdn05khi.tamashaweb.com:8087/jazzauth/SachTV-abr/playlist.m3u8"
+      };
+
+      // ========== CHANNEL DATA ==========
+      const jsonData = {
+        "status": "SUCCESS", "message": "", "data": { "channels": [
+          {"channelId":226,"channelName":"ARY News","channelSlug":"ARYnews","channelDescription":"Pakistani news channel bringing you the latest Pakistan news & featured stories from around Pakistan & all over the world.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/1684242189-logo.webp?id=70","category":"News","port":"8087"},
+          {"channelId":879,"channelName":"TV Today","channelSlug":"TvToday","channelDescription":"TV Today is a dynamic Pakistani news channel delivering timely updates across local and global politics, sports, business, and entertainment.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1777361319288.webp?id=25","category":"News","port":"8087"},
+          {"channelId":569,"channelName":"BBC News","channelSlug":"BBCNEWS","channelDescription":"A trusted global news channel bringing accurate, unbiased reporting and in-depth analysis from around the world.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1761652087354.webp?id=90","category":"News","port":"8087"},
+          {"channelId":494,"channelName":"PTV News","channelSlug":"PTVNews","channelDescription":"Your reliable source for 24/7 Urdu news, covering national and international headlines, current affairs, and expert insights.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1750321735602.webp?id=99","category":"News","port":"8087"},
+          {"channelId":83,"channelName":"Dawn News","channelSlug":"DawnNews","channelDescription":"Dawn News brings most authentic News and Shows from Pakistan in English and Urdu language.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/dawn-news-live.webp?id=10","category":"News","port":"8087"},
+          {"channelId":691,"channelName":"Paigham TV","channelSlug":"PaighamTV","channelDescription":"Your Islamic Education & Guidance Channel, spreading the true message of the Qur'an and Sunnah worldwide.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1766040085640.webp?id=31","category":"Islamic","port":"8087"},
+          {"channelId":529,"channelName":"Sun News HD","channelSlug":"SUN-NEWS","channelDescription":"Your Punjabi and English Lifestyle Channel - the modern gateway to the heart of Punjab.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1758117208685.webp?id=55","category":"News","port":"8087"},
+          {"channelId":510,"channelName":"Digital Pakistan Dispatch","channelSlug":"Digital-pak","channelDescription":"Pakistan's leading tech storytelling platform - bringing you daily updates on innovation, industry trends.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1755087012153.webp?id=50","category":"Entertainment","port":"8087"},
+          {"channelId":5100,"channelName":"Tamasha Life HD","channelSlug":"Tamasha-Life-HD","channelDescription":"Pakistan's leading drama storytelling digital server Tamasha PK.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1762201405506.webp?id=79","category":"Entertainment","port":"8087"},
+          {"channelId":573,"channelName":"BBC Lifestyle","channelSlug":"BBC-Lifestyle","channelDescription":"A vibrant channel celebrating everyday living through inspiring stories about food, home, fashion, and wellness.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1761652808195.webp?id=62","category":"Documentary","port":"8087"},
+          {"channelId":495,"channelName":"PTV Sports","channelSlug":"PTVSports","channelDescription":"The ultimate destination for sports fans, with live coverage, expert analysis, and exclusive cricket content.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1750321954030.webp?id=77","category":"Sports","port":"8087"},
+          {"channelId":577,"channelName":"BBC Earth","channelSlug":"BBC-Earth","channelDescription":"A breathtaking journey into the wonders of our planet, showcasing nature's beauty, wildlife adventures.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1761653800346.webp?id=17","category":"Documentary","port":"8087"},
+          {"channelId":177,"channelName":"ARY Digital","channelSlug":"ARYdigital","channelDescription":"Enjoy latest Pakistani Dramas, Shows, Morning and Game Shows, and sitcoms with ARY Digital.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/ary-digital-live-logo.webp?id=24","category":"Entertainment","port":"8087"},
+          {"channelId":593,"channelName":"Discovery Science","channelSlug":"Discovery-Science","channelDescription":"The ultimate destination for curious minds: exploring groundbreaking inventions, space discoveries.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1761655046093.webp?id=78","category":"Documentary","port":"8087"},
+          {"channelId":493,"channelName":"PTV Home","channelSlug":"PTVHome","channelDescription":"The heart of Pakistani entertainment, PTV Home brings you timeless dramas, family shows, and cultural programs.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1750321510303.webp?id=35","category":"Entertainment","port":"8087"},
+          {"channelId":142,"channelName":"Geo Entertainment","channelSlug":"GeoEntertainment","channelDescription":"Pakistan's Number ONE Family Entertainment Channel with best of Drama, Shows, Movies.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/geo-entertainment-live.webp?id=35","category":"Entertainment","port":"8087"},
+          {"channelId":94,"channelName":"Samaa TV","channelSlug":"samaaTV","channelDescription":"Samaa TV is a Pakistani news and entertainment television network featuring news about sports, politics, current affairs.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/samaa-tv-live.webp?id=28","category":"News","port":"8087"},
+          {"channelId":585,"channelName":"BBC First","channelSlug":"BBC-First","channelDescription":"Home to award-winning British dramas, gripping thrillers, and unforgettable characters.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1761654477972.webp?id=87","category":"Entertainment","port":"8087"},
+          {"channelId":581,"channelName":"BBC Cbeebies","channelSlug":"BBC-Cbeebies","channelDescription":"A fun, safe, and imaginative world designed especially for young learners filled with laughter, songs, and stories.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1761654252051.webp?id=85","category":"Kids","port":"8087"},
+          {"channelId":244,"channelName":"Eurosport","channelSlug":"Eurosport","channelDescription":"Eurosport is your go-to source for live sports streaming, sports news, commentary and highlights.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/1686912440-logo.webp?id=18","category":"Sports","port":"8087"},
+          {"channelId":490,"channelName":"CGTN HD","channelSlug":"CgtnHD","channelDescription":"CGTN is China's flagship global news channel, delivering accurate and timely coverage.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1749124554903.webp?id=98","category":"News","port":"8087"},
+          {"channelId":496,"channelName":"PTV World","channelSlug":"PTVWorld","channelDescription":"Watch PTV World live covering English-language news and current affairs with Pakistan's viewpoint.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1750322208140.webp?id=94","category":"News","port":"8087"},
+          {"channelId":589,"channelName":"BBC Brit","channelSlug":"BBC-Brit","channelDescription":"A bold and entertaining channel offering a mix of humour, adventure, and real-life stories.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1761654790591.webp?id=42","category":"Documentary","port":"8087"},
+          {"channelId":491,"channelName":"CGTN Documentary HD","channelSlug":"CgtnDocumentary","channelDescription":"CGTN Documentary is a 24/7 channel dedicated to powerful documentaries on China's culture, history.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1749124897580.webp?id=81","category":"Documentary","port":"8087"},
+          {"channelId":135,"channelName":"Discovery HD","channelSlug":"DiscoveryHD","channelDescription":"Real-life entertainment with gripping documentaries, fascinating science, nature, adventure, and lifestyle content.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1749016875362.webp?id=66","category":"Documentary","port":"8087"},
+          {"channelId":597,"channelName":"Travel Channel","channelSlug":"Travel-Channel","channelDescription":"Your window to the world: uncover hidden destinations, explore diverse cultures.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1761655290963.webp?id=97","category":"Documentary","port":"8087"},
+          {"channelId":319,"channelName":"Green Entertainment","channelSlug":"Green_Entertainment","channelDescription":"Enjoy fresh, creative and interesting programs on Green Entertainment channel on Tamasha.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/1702552123-logo.webp?id=31","category":"Entertainment","port":"8087"},
+          {"channelId":120,"channelName":"Hum News","channelSlug":"humnews","channelDescription":"Pakistan's news channel, providing you with latest news & top news stories from Pakistan & across the globe.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/HUM-News-Channel-logo.webp?id=60","category":"News","port":"8087"},
+          {"channelId":601,"channelName":"Discovery Investigation","channelSlug":"Discovery-Investigation","channelDescription":"Step inside real-life crime stories and gripping mysteries as investigators uncover shocking truths.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1761655526289.webp?id=88","category":"Documentary","port":"8087"},
+          {"channelId":93,"channelName":"Hum TV","channelSlug":"humTV","channelDescription":"Stay up to date with the latest dramas, telefilms, shows, and OSTs on HUM TV's live streaming.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1738840613135.webp?id=30","category":"Entertainment","port":"8087"},
+          {"channelId":605,"channelName":"Discovery Turbo","channelSlug":"Discovery-Turbo","channelDescription":"Where speed meets passion: celebrating the world of cars, bikes, and extreme machines.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1761655890951.webp?id=64","category":"Documentary","port":"8087"},
+          {"channelId":421,"channelName":"Inplus Pakistan","channelSlug":"Inplus","channelDescription":"Unforgettable entertainment experiences for every viewer. Watch your favorite superhit movies on Inplus Pakistan.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/TMSH-1720441424490.webp?id=17","category":"Entertainment","port":"8087"},
+          {"channelId":137,"channelName":"BOL Entertainment","channelSlug":"BolEntertainment","channelDescription":"BOL Entertainment revolutionized Pakistani audience entertainment with shows around the clock.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/bol-entertainment-live.webp?id=83","category":"Entertainment","port":"8087"},
+          {"channelId":497,"channelName":"PTV National","channelSlug":"PTVNational","channelDescription":"Celebration of Pakistan's cultural diversity with vibrant programming in regional languages.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1750322366525.webp?id=45","category":"Entertainment","port":"8087"},
+          {"channelId":87,"channelName":"Express News","channelSlug":"expressnews","channelDescription":"Express News is one of the premium Urdu News channel bringing latest headlines, top rated talk shows.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/express-news-live.webp?id=55","category":"News","port":"8087"},
+          {"channelId":121,"channelName":"Hum Masala","channelSlug":"hummasala","channelDescription":"Pakistan's No.1 Cooking Channel. Learn quick & easy BBQ, International Cuisine, Desserts and more.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1738840592660.webp?id=69","category":"Cooking","port":"8087"},
+          {"channelId":45,"channelName":"AAJ News","channelSlug":"AajNews","channelDescription":"Aaj News is one of Pakistan's most authentic news channel catering latest unbiased news and views.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/aaj-news-live.webp?id=10","category":"News","port":"8087"},
+          {"channelId":337,"channelName":"Al Jazeera","channelSlug":"AL-Jazeera","channelDescription":"Al Jazeera English provides international news and current affairs that places people at the heart of the story.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/1706163791-logo.webp?id=21","category":"News","port":"8087"},
+          {"channelId":178,"channelName":"ARY Zindagi","channelSlug":"ARYzindagi","channelDescription":"ARY Zindagi airs a variety of Indian, Turkish and Pakistani programs 24/7 for its viewers.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/ary-zindagi-live-logo.webp?id=67","category":"Entertainment","port":"8087"},
+          {"channelId":88,"channelName":"Express Entertainment","channelSlug":"ExpressEntertainment","channelDescription":"Express Entertainment has quickly become Pakistan's top entertainment channel with amazing Dramas and shows.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/express-entertainment-live.webp?id=82","category":"Entertainment","port":"8087"},
+          {"channelId":119,"channelName":"Hum Sitaray","channelSlug":"HumSitaray","channelDescription":"An exclusive drama channel wing of Hum TV Network, streaming dramas and entertainment shows.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/HUM-Sitaray-Channel-logo.webp?id=44","category":"Entertainment","port":"8087"},
+          {"channelId":122,"channelName":"CNN","channelSlug":"Livecnn","channelDescription":"CNN is an American news-based channel, the first to provide 24-hour news coverage.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/cnn-news-live.webp?id=51","category":"News","port":"8087"},
+          {"channelId":33,"channelName":"NEO News","channelSlug":"NeoNews","channelDescription":"Neo News TV is the reflection of positive, proud and resilient Pakistan through world class journalism.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/neo-tv-live.webp?id=75","category":"News","port":"8087"},
+          {"channelId":444,"channelName":"Set Entertainment","channelSlug":"SetEntertainment","channelDescription":"Set Entertainment filled with comedy, laughter and fun for whole family LIVE on Tamasha.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1730720761397.webp?id=31","category":"Entertainment","port":"8087"},
+          {"channelId":123,"channelName":"Cartoon Network","channelSlug":"cartoonnetwork","channelDescription":"Cartoon Network broadcasts animated series, mostly children's programming from action to comedy.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/cartoon-network-live.webp?id=25","category":"Kids","port":"8087"},
+          {"channelId":138,"channelName":"BOL News","channelSlug":"BolNews","channelDescription":"BOL News is one of the top News Channels in Pakistan aiming to revolutionize news media.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/bol-news-live.webp?id=79","category":"News","port":"8087"},
+          {"channelId":323,"channelName":"Minimax","channelSlug":"Minimax","channelDescription":"Enjoy educative, entertaining and classical cartoons and programs for children on Minimax.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/1702633459-logo.webp?id=75","category":"Kids","port":"8087"},
+          {"channelId":225,"channelName":"Aan TV","channelSlug":"AAN-TV","channelDescription":"Aan TV is Pakistan's Premier TV channel providing quality TV Dramas, Shows and Music.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/1681977574-logo.webp?id=80","category":"Entertainment","port":"8087"},
+          {"channelId":58,"channelName":"TV One","channelSlug":"TVOne","channelDescription":"TV One Global airs full time entertainment Pakistani drama episodes, soaps and lifestyle programs.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/tv-one-live.webp?id=31","category":"Entertainment","port":"8087"},
+          {"channelId":349,"channelName":"Suno News","channelSlug":"Suno_News","channelDescription":"Watch Suno News HD for all the latest news and updates from Pakistan and across the globe.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/1709545345-logo.webp?id=46","category":"News","port":"8087"},
+          {"channelId":145,"channelName":"GTV News","channelSlug":"GTVNews","channelDescription":"GTV News is one of Pakistan's emerging news channels covering events across Pakistan and globe.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/gtv-new-logo.webp?id=88","category":"News","port":"8087"},
+          {"channelId":232,"channelName":"Sab TV Pakistan","channelSlug":"SabTV","channelDescription":"Watch wide variety of entertainment shows: dramas, interviews, celebrity gossips and much more.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/1686044497-logo.webp?id=59","category":"Entertainment","port":"8087"},
+          {"channelId":238,"channelName":"ABN News","channelSlug":"ABNnews","channelDescription":"ABN News is a 24-hour national news channel bringing you latest news headlines and talkshows.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/1686912075-logo.webp?id=18","category":"News","port":"8087"},
+          {"channelId":52,"channelName":"Madani Channel","channelSlug":"Madni","channelDescription":"A well-known Islamic channel in Pakistan with huge variety of Islamic programs watched by millions.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/madani-channel-live.webp?id=68","category":"Islamic","port":"8087"},
+          {"channelId":144,"channelName":"GNN","channelSlug":"GNN","channelDescription":"GNN provides credible, authentic and reliable news with largest network of reporting team.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/gnn-live.webp?id=39","category":"News","port":"8087"},
+          {"channelId":30,"channelName":"FILMAX","channelSlug":"Filmax","channelDescription":"Filmax TV is your ticket to grade-A Hollywood movies and entertainment round the clock.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/filmax-live.webp?id=25","category":"Entertainment","port":"8087"},
+          {"channelId":81,"channelName":"Kashish","channelSlug":"KashishTV","channelDescription":"Kashish TV is Pakistan's first Sindhi Music Channel entertaining Sindh urban and rural class.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/kashish-live.webp?id=12","category":"Regional","port":"8087"},
+          {"channelId":498,"channelName":"PTV Bolan","channelSlug":"PTVBolan","channelDescription":"Dedicated to Balochistan's heritage, PTV Bolan brings content in Balochi, Pashto, and Brahvi.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1750322527745.webp?id=98","category":"Regional","port":"8087"},
+          {"channelId":92,"channelName":"Sindh TV","channelSlug":"sindhTV","channelDescription":"Sindh TV is a Pakistani Sindhi language satellite television channel.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/sindh-tv-live.webp?id=37","category":"Regional","port":"8087"},
+          {"channelId":406,"channelName":"City 21 News","channelSlug":"city21","channelDescription":"City 21, a Karachi-based news channel broadcasting latest happenings and events in Karachi.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/TMSH-1719490357715.webp?id=95","category":"News","port":"8087"},
+          {"channelId":124,"channelName":"Baby TV","channelSlug":"BabyTV","channelDescription":"BabyTV - the first 24/7 channel for kids, babies and toddlers with activities and TV shows.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/baby-tv-live.webp?id=76","category":"Kids","port":"8087"},
+          {"channelId":002,"channelName":"Nick-Jr","channelSlug":"Nick-Jr","channelDescription":"Pakistan's leading cartoon  storytelling digital tv ch","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1729547438288.webp?id=32","category":"Kids","port":"8087"},
+          {"channelId":485,"channelName":"365 TV","channelSlug":"365News","channelDescription":"Your 24/7 source for breaking news, trending stories, celeb gossip, and sharp analysis.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1745518926422.webp?id=68","category":"News","port":"8087"},
+          {"channelId":130,"channelName":"Movie One","channelSlug":"MovieOne","channelDescription":"MOVIE ONE is your one-stop movie destination with comedies, dramas, and action hits.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/movie-one-live.webp?id=70","category":"Entertainment","port":"8087"},
+          {"channelId":484,"channelName":"Aur Life HD","channelSlug":"AurLife","channelDescription":"A lifestyle entertainment channel with feel-good dramas, inspiring talk shows, wellness content.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/1745518766547.webp?id=45","category":"Entertainment","port":"8087"},
+          {"channelId":102,"channelName":"LTN Family","channelSlug":"LTNFamily","channelDescription":"LTN Family Channel broadcasts local and multinational shows including Turkish, Russian, Korean content.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/ltn-family-live.webp?id=82","category":"Entertainment","port":"8087"},
+          {"channelId":80,"channelName":"KTN News","channelSlug":"ktnNews","channelDescription":"KTN News broadcasts up-to-date news and current affairs in Sindhi language.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/ktn-news-live.webp?id=58","category":"News","port":"8087"},
+          {"channelId":28,"channelName":"24 NEWS HD","channelSlug":"24News","channelDescription":"24 News is a popular Pakistani news channel with 24/7 News Headlines and current affairs.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/channel-24-live.webp?id=32","category":"News","port":"8087"},
+          {"channelId":50,"channelName":"Such TV","channelSlug":"SachTV","channelDescription":"Such TV has emerged in Pakistani news media as voice of truth for latest news.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/such-tv-live.webp?id=52","category":"News","port":"8087"},
+          {"channelId":152,"channelName":"Discover Pakistan","channelSlug":"DiscoveryPakistan","channelDescription":"Discover Pakistan is Pakistan's First Tourism HD Satellite channel promoting tourism.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/discover-pakistan-live-logo.webp?id=86","category":"Documentary","port":"8087"},
+          {"channelId":48,"channelName":"Roze News","channelSlug":"RozNews","channelDescription":"Roze News brings together the most noteworthy news from Pakistan and across the world.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/roze-news-live.webp?id=55","category":"News","port":"8087"},
+          {"channelId":46,"channelName":"AAJ Entertainment","channelSlug":"AajEntertainment","channelDescription":"Enjoy some of the best TV shows and programs loved by entire Pakistan with Aaj Entertainment.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/aaj-entertainment-live.webp?id=37","category":"Entertainment","port":"8087"},
+          {"channelId":405,"channelName":"Animal Planet","channelSlug":"AnimalPlanet","channelDescription":"Immerse in the full range of life in the animal kingdom with rich content on Animal Planet.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/TMSH-1719302840733.webp?id=67","category":"Documentary","port":"8087"},
+          {"channelId":163,"channelName":"Lahore Rang","channelSlug":"LahoreRung","channelDescription":"Lahore's premiere news channel covering shows, sports, and news in true Lahori Style.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/lahore-rang-logo.webp?id=17","category":"News","port":"8087"},
+          {"channelId":57,"channelName":"News One","channelSlug":"NewsOne","channelDescription":"News One airs 24/7 latest headline news bulletins and talk shows on current affairs.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/news-one-live.webp?id=100","category":"News","port":"8087"},
+          {"channelId":164,"channelName":"Mehran TV","channelSlug":"MehranTV","channelDescription":"Sindhi satellite channel aired from Hyderabad dedicated to Sindh's culture.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/mehran-tv-logo.webp?id=25","category":"Regional","port":"8087"},
+          {"channelId":118,"channelName":"Public News","channelSlug":"PublicTV","channelDescription":"Public News is an Urdu language Pakistani news channel based in Lahore launched in 2018.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/public-news-live.webp?id=55","category":"News","port":"8087"},
+          {"channelId":107,"channelName":"A1TV","channelSlug":"A1TV","channelDescription":"A1 TV is a hybrid satellite TV channel based out of UK covering events for overseas Pakistanis.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/a1-tv-live.webp?id=26","category":"Entertainment","port":"8087"},
+          {"channelId":54,"channelName":"AVT Khyber TV","channelSlug":"AVTkhyberTV","channelDescription":"AVT Khyber TV is a mainstream Pashto channel covering Pakistan, India and Afghanistan.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/1685537734-logo.webp?id=88","category":"Regional","port":"8087"},
+          {"channelId":98,"channelName":"Channel 5","channelSlug":"Channel5","channelDescription":"Channel Five is an Urdu language Pakistani TV channel from Khabrain Group based in Lahore.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/TMSH-1723464325328.webp?id=52","category":"News","port":"8087"},
+          {"channelId":29,"channelName":"CITY 42","channelSlug":"city42(vnw)","channelDescription":"City 42 News broadcasts latest news, top stories, and current affairs of Lahore, Pakistan.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/city-42-live.webp?id=31","category":"News","port":"8087"},
+          {"channelId":153,"channelName":"Metro 1 News","channelSlug":"Metro1News","channelDescription":"Metro 1 news is one of Pakistan's leading 24-hour news networks focusing on Karachi.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/metro-1-news-live.webp?id=46","category":"News","port":"8087"},
+          {"channelId":91,"channelName":"Sindh TV News","channelSlug":"SindhNews","channelDescription":"Sindh TV News is a Sindhi news channel telecasting news, reports and current affair programs.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/sindh-tv-news-live.webp?id=22","category":"News","port":"8087"},
+          {"channelId":127,"channelName":"Time News","channelSlug":"TimeNews","channelDescription":"Time News is a Sindhi News Channel bringing news from around the globe.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/time-news-live.webp?id=49","category":"News","port":"8087"},
+          {"channelId":76,"channelName":"Rohi","channelSlug":"RohiTV","channelDescription":"Rohi TV brings news, talk shows, music in Seraiki language covering Multan, Dera Ismail Khan.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/rohi-live.webp?id=43","category":"Regional","port":"8087"},
+          {"channelId":60,"channelName":"Khyber News","channelSlug":"KhyberNews","channelDescription":"Khyber News brings live breaking news about KPK, FATA and current affairs in Pashto.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/1685537412-logo.webp?id=65","category":"News","port":"8087"},
+          {"channelId":42,"channelName":"K21 News","channelSlug":"K21","channelDescription":"K21 News broadcasts true voice of Karachi with latest news from the City of Lights.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/k21-news-live.webp?id=96","category":"News","port":"8087"},
+          {"channelId":70,"channelName":"Saudi Quran Makkah TV HD","channelSlug":"Saudimakkah(nw)","channelDescription":"Saudi Quran Makkah TV is 24/7 Live Islamic TV Channel from Makkah highlighting Quran and Kaaba.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/saudi-quran-makkah-tv-hd-live.webp?id=35","category":"Islamic","port":"8087"},
+          {"channelId":71,"channelName":"Saudi Sunnah Madinah TV HD","channelSlug":"SaudiSunnah(NW)","channelDescription":"Saudi Sunnah Madinah TV is 24/7 Live Islamic TV Channel from Madinah highlighting Sunnah.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/saudi-sunnah-madinah-tv-hd-live.webp?id=56","category":"Islamic","port":"8087"},
+          {"channelId":59,"channelName":"Waseb","channelSlug":"waseeb","channelDescription":"Waseb TV offers non stop news and entertainment in Siraiki language with movies and programs.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/waseb-live.webp?id=91","category":"Regional","port":"8087"},
+          {"channelId":136,"channelName":"Play TV","channelSlug":"play","channelDescription":"Play TV features drama serials, cooking shows, and more entertainment 24 hours.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/play-tv-live.webp?id=23","category":"Entertainment","port":"8087"},
+          {"channelId":75,"channelName":"City 41","channelSlug":"city41News","channelDescription":"City 41 News broadcasts latest news, events and happenings in Faisalabad.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/city41-live.webp?id=84","category":"News","port":"8087"},
+          {"channelId":111,"channelName":"Mashriq TV","channelSlug":"mashriqtv","channelDescription":"Mashriq TV highlights eastern heritage and social values of Asian community in Europe.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/mashriq-tv-live.webp?id=98","category":"News","port":"8087"},
+          {"channelId":96,"channelName":"DW English","channelSlug":"DWNews","channelDescription":"DW is Germany's international broadcaster bringing latest news in English from around the world.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/DW-english-live.webp?id=45","category":"News","port":"8087"},
+          {"channelId":140,"channelName":"Kohenoor TV","channelSlug":"KohinoorTV","channelDescription":"Kohenoor TV is a 24-hour entertainment channel focusing on morality and social issues.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/kohenoor-tv-live.webp?id=15","category":"Entertainment","port":"8087"},
+          {"channelId":62,"channelName":"8XM","channelSlug":"8xm","channelDescription":"8XM is one of the top music channels in Pakistan with Pakistani and Indian songs.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/8xm-live.webp?id=81","category":"Music","port":"8087"},
+          {"channelId":79,"channelName":"KTN Entertainment","channelSlug":"ktnEntertainment","channelDescription":"KTN is the first private Sindhi TV channel of Pakistan offering entertainment drama and shows.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/ktn-entertainment-live.webp?id=81","category":"Regional","port":"8087"},
+          {"channelId":64,"channelName":"Apna Channel","channelSlug":"Apna","channelDescription":"Apna Entertainment a family Urdu entertainment channel with dramas and late night shows.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/apna-tv-live.webp?id=25","category":"Entertainment","port":"8087"},
+          {"channelId":61,"channelName":"Abb Takk News","channelSlug":"abbtak","channelDescription":"Abb Takk News brings live 24/7 breaking news and talk shows on Pakistani politics in Urdu.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/abb-takk-news-live.webp?id=28","category":"News","port":"8087"},
+          {"channelId":65,"channelName":"Jalwa TV","channelSlug":"jalwa","channelDescription":"Jalwa TV brings top music collections of Pakistani and Indian Music for young adults.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/jalwa-tv-live.webp?id=42","category":"Music","port":"8087"},
+          {"channelId":35,"channelName":"SEE TV","channelSlug":"seeTV","channelDescription":"Entertainment personified with See TV. Enjoy Pakistani and Turkish blockbuster shows.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/see-tv-live.webp?id=77","category":"Entertainment","port":"8087"},
+          {"channelId":131,"channelName":"Champion TV","channelSlug":"championtv","channelDescription":"Champion TV is Pakistan's first-ever HD Channel with English & Urdu content.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/champion-tv-live.webp?id=57","category":"Entertainment","port":"8087"},
+          {"channelId":56,"channelName":"Kay2 TV","channelSlug":"Kay2","channelDescription":"Pakistan's first multilingual TV channel in Pothowari, Urdu, English and Pashto.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/1685535127-logo.webp?id=13","category":"Entertainment","port":"8087"},
+          {"channelId":55,"channelName":"Pashto 1","channelSlug":"Pashto1","channelDescription":"24/7 live channel with Hum TV dramas dubbed in Pashto for the Pashtun population.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/HUM-Pashto-Channel-logo.webp?id=70","category":"Regional","port":"8087"},
+          {"channelId":146,"channelName":"Aik News","channelSlug":"PNN","channelDescription":"Aik News is your trusted source for the latest news and insightful analysis.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/AIKNEWS-LOGO.webp?id=61","category":"News","port":"8087"},
+          {"channelId":24,"channelName":"ARUJ","channelSlug":"AroojTV","channelDescription":"Aruj TV brings best Pashto content: music, shows, dramas and Pashto flicks.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/aruj-live.webp?id=77","category":"Entertainment","port":"8087"},
+          {"channelId":23,"channelName":"A PLUS","channelSlug":"Aplus","channelDescription":"A Plus TV is Pakistan's top entertainment channel with amazing Dramas and shows.","logo":"https://canvas.tamashaweb.com/jazzlive/uploads/channels/logo/a-plus-live.webp?id=70","category":"Entertainment","port":"8087"},
+          {"channelId":999,"channelName":"Hi Dost","channelSlug":"Hi-Dost","channelDescription":"Hi Dost - Your entertainment channel for the best music, shows and live content 24/7.","logo":"https://bandaheali-cdn.koyeb.app/media/bot_1779457618270.jpg","category":"Entertainment","port":"8087"},
+          {"channelId":1001,"channelName":"GS TV","channelSlug":"GS-TV","channelDescription":"GS TV - Regional Christian broadcasting channel bringing spiritual content, worship services, and community programs.","logo":"https://bandaheali-cdn.koyeb.app/media/bot_1779496159850.jpg","category":"Regional","port":"8087"},
+          {"channelId":1002,"channelName":"GEO INTERTENMET HD","channelSlug":"GEO-INTERTENMET-HD","channelDescription":"GEO INTERTENMET HD - Premium HD entertainment channel featuring top Pakistani dramas, shows, and live programming.","logo":"https://bandaheali-cdn.koyeb.app/media/bot_1779496285224.jpg","category":"Entertainment","port":"8087"},
+          {"channelId":1003,"channelName":"ISAAC TV","channelSlug":"ISAAC-TV","channelDescription":"ISAAC TV - Regional Christian channel offering inspirational content, sermons, worship, and family programs.","logo":"https://bandaheali-cdn.koyeb.app/media/bot_1779496378288.jpg","category":"Regional","port":"8087"},
+          {"channelId":1004,"channelName":"JOSHUA TV","channelSlug":"JOSHUA-TV","channelDescription":"JOSHUA TV - Regional Christian television delivering faith-based programming, gospel music, and spiritual teachings.","logo":"https://bandaheali-cdn.koyeb.app/media/bot_1779496457578.jpg","category":"Regional","port":"8087"},
+          {"channelId":1005,"channelName":"KING TV","channelSlug":"KING-TV","channelDescription":"KING TV - Regional Christian channel featuring worship services, bible teachings, and uplifting content for the whole family.","logo":"https://bandaheali-cdn.koyeb.app/media/bot_1779496530171.jpg","category":"Regional","port":"8087"},
+          {"channelId":1006,"channelName":"PMI TV","channelSlug":"PMI-TV","channelDescription":"PMI TV - Regional Christian broadcasting with spiritual programs, worship music, and community outreach content.","logo":"https://bandaheali-cdn.koyeb.app/media/bot_1779496612968.jpg","category":"Regional","port":"8087"},
+          {"channelId":1007,"channelName":"PRAISE TV","channelSlug":"PRAISE-TV","channelDescription":"PRAISE TV - Regional Christian channel dedicated to praise, worship, gospel music, and inspirational programming.","logo":"https://bandaheali-cdn.koyeb.app/media/bot_1779496672592.jpg","category":"Regional","port":"8087"},
+          {"channelId":1008,"channelName":"JOO MUSIC","channelSlug":"JOO-MUSIC","channelDescription":"JOO MUSIC - Premium music channel featuring the best of gospel, worship, and inspirational music 24/7.","logo":"https://bandaheali-cdn.koyeb.app/media/bot_1779496754009.jpg","category":"Music","port":"8087"},
+          {"channelId":2001,"channelName":"ManoRanjan Prime","channelSlug":"Manoranjan-Prime","channelDescription":"ManoRanjan Prime - Premium Indian entertainment channel featuring top Bollywood movies, TV shows, and exclusive series.","logo":"https://bandaheali-cdn.koyeb.app/media/bot_1779548005909.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2002,"channelName":"ManoRanjan Grand","channelSlug":"Manoranjan-Grand","channelDescription":"ManoRanjan Grand - Grand Indian entertainment with blockbuster movies, popular TV serials, and family shows.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779548087906_dSjIZEMxG.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2003,"channelName":"ManoRanjan TV","channelSlug":"Manoranjan-TV","channelDescription":"ManoRanjan TV - Your daily dose of Indian entertainment with drama, comedy, and reality shows.","logo":"https://bandaheali-cdn.koyeb.app/media/bot_1779557773190.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2004,"channelName":"DD Rajasthan","channelSlug":"DD-Rajasthan","channelDescription":"DD Rajasthan - Doordarshan's regional channel bringing Rajasthani culture, news, and entertainment programs.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779557860665_9Fkf0p7EN.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2005,"channelName":"DD URDU","channelSlug":"DD-URDU","channelDescription":"DD URDU - Doordarshan's Urdu channel offering news, cultural programs, and entertainment in Urdu language.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779558920592_KL85nUiOU.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2006,"channelName":"DD PUNJABI","channelSlug":"DD-PUNJABI","channelDescription":"DD PUNJABI - Doordarshan's Punjabi channel featuring Punjabi culture, music, news, and regional entertainment.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779559113339_eri0jW31L.jpeg","category":"Punjabi","port":"8087"},
+          {"channelId":2007,"channelName":"DD SPORTS","channelSlug":"DD-SPORTS","channelDescription":"DD SPORTS - India's premier sports channel covering cricket, hockey, football, and major sporting events live.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779559282180_7rtwP4r2_.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2008,"channelName":"DAHRASHNA","channelSlug":"DAHRASHNA","channelDescription":"DAHRASHNA - Indian regional channel bringing diverse cultural content, shows, and entertainment programs.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779559345413__MPXljgAP.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2009,"channelName":"GoldMines","channelSlug":"GoldMines","channelDescription":"GoldMines - Ultimate destination for Bollywood blockbusters, classic movies, and Hindi-dubbed South Indian hits.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779559455926_VvSv5gJOz.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2010,"channelName":"GoldMines 2","channelSlug":"GoldMines-2","channelDescription":"GoldMines 2 - More Bollywood action, Hindi-dubbed movies, and non-stop entertainment for movie lovers.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779559624006_3CBhRCJvf.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2011,"channelName":"GoldMines Movies","channelSlug":"GoldMines-Movies","channelDescription":"GoldMines Movies - 24/7 movie channel showcasing the best of Bollywood, Hollywood dubbed, and regional cinema.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779559693508_XjKZzpdXE-.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2012,"channelName":"B4U MOVIES","channelSlug":"B4U-MOVIES","channelDescription":"B4U MOVIES - Premium Bollywood movie channel featuring latest blockbusters, classic hits, and star-studded films.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779559803211_AE-swivXv.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2013,"channelName":"B4U KADAK","channelSlug":"B4U-KADAK","channelDescription":"B4U KADAK - Action-packed Bollywood channel with masala movies, action hits, and dramatic blockbusters.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779559916598_M-FrkxBnY.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2014,"channelName":"B4U MUSIC","channelSlug":"B4U-MUSIC","channelDescription":"B4U MUSIC - India's leading music channel featuring Bollywood chartbusters, music videos, and countdown shows.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779560024063_ITROeNy-i.jpeg","category":"Music","port":"8087"},
+          {"channelId":2015,"channelName":"MUSIC INDIA","channelSlug":"MUSIC-INDIA","channelDescription":"MUSIC INDIA - Celebrating Indian music with Bollywood hits, classical, folk, and contemporary music videos.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779792336525_7VSNTDzu-v.jpeg","category":"Music","port":"8087"},
+          {"channelId":2016,"channelName":"9X Tashan","channelSlug":"9X-Tashan","channelDescription":"9X Tashan - High-energy Punjabi music channel with latest hits, bhangra beats, and Punjabi pop songs.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779792505993_HdUOhvq2I.jpeg","category":"Music","port":"8087"},
+          {"channelId":2017,"channelName":"9X Jhakhaas","channelSlug":"9X-Jhakhaas","channelDescription":"9X Jhakhaas - Marathi music and entertainment channel featuring Marathi songs, movies, and cultural shows.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779792613920_UHWPrut0U4.jpeg","category":"Music","port":"8087"},
+          {"channelId":2018,"channelName":"PITAARA TV","channelSlug":"PITAARA-TV","channelDescription":"PITAARA TV - Premium Punjabi entertainment with movies, music, cultural shows, and regional programming.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779792700531_anFTQuqx3.mp4","category":"Punjabi","port":"8087"},
+          {"channelId":2019,"channelName":"GTC PUNJABI","channelSlug":"GTC-PUNJABI","channelDescription":"GTC PUNJABI - Gateway to Punjabi culture with Gurbani, religious programs, music, and Punjabi entertainment.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779792799423_dqqY7oDUQ.jpeg","category":"Punjabi","port":"8087"},
+          {"channelId":2020,"channelName":"PUNJABI HITS","channelSlug":"PUNJABI-HITS","channelDescription":"PUNJABI HITS - Non-stop Punjabi hit songs, latest music videos, and chart-topping bhangra tracks 24/7.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779792873451_qnvaxpgtw.jpeg","category":"Music","port":"8087"},
+          {"channelId":2021,"channelName":"PTC Chakde","channelSlug":"PTC-Chakde","channelDescription":"PTC Chakde - Energetic Punjabi channel with youth-focused content, music, comedy, and entertaining shows.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779792928248_mMBTiw-fW.jpeg","category":"Music","port":"8087"},
+          {"channelId":2022,"channelName":"PTC PUNJABI","channelSlug":"PTC-PUNJABI","channelDescription":"PTC PUNJABI - Premier Punjabi channel offering Gurbani, cultural programs, news, and Punjabi entertainment.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779792986074_78EFm_FCi.jpeg","category":"Punjabi","port":"8087"},
+          {"channelId":2023,"channelName":"PTC PUNJABI CLF","channelSlug":"PTC-PUNJABI-CLF","channelDescription":"PTC PUNJABI CLF - Cloud-based Punjabi channel with seamless streaming of cultural and religious content.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793034202_K15q1IsKd6.jpeg","category":"Punjabi","port":"8087"},
+          {"channelId":2024,"channelName":"PTC PUNJABI GOLD","channelSlug":"PTC-PUNJABI-GOLD","channelDescription":"PTC PUNJABI GOLD - Premium Punjabi entertainment with golden hits, classic shows, and timeless cultural programs.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793096597_sQIuR6VJg.jpeg","category":"Punjabi","port":"8087"},
+          {"channelId":2025,"channelName":"PTC PUNJABI GOLD CLF","channelSlug":"PTC-PUNJABI-GOLD-CLF","channelDescription":"PTC PUNJABI GOLD CLF - Enhanced streaming of classic Punjabi gold content with cloud-based delivery.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793194547_uzsSic9Ab7.jpeg","category":"Punjabi","port":"8087"},
+          {"channelId":2026,"channelName":"PTC SIMRAN","channelSlug":"PTC-SIMRAN","channelDescription":"PTC SIMRAN - Spiritual Punjabi channel dedicated to Gurbani, kirtan, sikh history, and religious teachings.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793244232_N-5wnXusB.jpeg","category":"Punjabi","port":"8087"},
+          {"channelId":2027,"channelName":"PTC MUSIC","channelSlug":"PTC-MUSIC","channelDescription":"PTC MUSIC - Punjabi music channel featuring latest songs, music videos, folk music, and bhangra hits.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793296090_qcYyF46gJ.jpeg","category":"Music","port":"8087"},
+          {"channelId":2028,"channelName":"PTC MUSIC CLF","channelSlug":"PTC-MUSIC-CLF","channelDescription":"PTC MUSIC CLF - Cloud-streamed Punjabi music with high-quality audio and video for music enthusiasts.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793382245_D9uuhemaa.jpeg","category":"Music","port":"8087"},
+          {"channelId":2029,"channelName":"Balle Balle","channelSlug":"Balle-Balle","channelDescription":"Balle Balle - Joyful Punjabi music and entertainment channel bringing celebration, dance, and festive vibes.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793516041_8GvHYjAEsH.jpeg","category":"Music","port":"8087"},
+          {"channelId":2030,"channelName":"Tabbar Hits","channelSlug":"Tabbar-Hits","channelDescription":"Tabbar Hits - Family-friendly Punjabi music channel with hits for all generations and occasions.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793577647_jFCVf3His.jpeg","category":"Music","port":"8087"},
+          {"channelId":2031,"channelName":"SteelBirds Music","channelSlug":"SteelBirds-Music","channelDescription":"SteelBirds Music - Contemporary music channel featuring latest hits, independent artists, and trending songs.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793667535_BB2N_2X6L.jpeg","category":"Music","port":"8087"},
+          {"channelId":2032,"channelName":"Maha Punjabi","channelSlug":"Maha-Punjabi","channelDescription":"Maha Punjabi - Mega Punjabi entertainment hub with movies, music, cultural events, and regional shows.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793747054_IGSz4Q8Ct.jpeg","category":"Punjabi","port":"8087"},
+          {"channelId":2033,"channelName":"DESI CHANNEL","channelSlug":"DESI-CHANNEL","channelDescription":"DESI CHANNEL - Pure desi entertainment with Punjabi culture, traditional shows, movies, and music.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793806062_ZnowHevZN.jpeg","category":"Punjabi","port":"8087"},
+          {"channelId":2034,"channelName":"ChardiKla TIME","channelSlug":"ChardiKla-TIME","channelDescription":"ChardiKla TIME - Sikh religious channel with Gurbani, kirtan, Katha, and spiritual teachings 24/7.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793878583_5VZ0idfQQ.jpeg","category":"Punjabi","port":"8087"},
+          {"channelId":2035,"channelName":"ChardiKla Time CLF","channelSlug":"ChardiKla-Time-CLF","channelDescription":"ChardiKla Time CLF - Cloud-based Sikh spiritual channel with high-quality streaming of religious content.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779793878583_5VZ0idfQQ.jpeg","category":"Punjabi","port":"8087"},
+          {"channelId":2036,"channelName":"Semaroo TV","channelSlug":"Semaroo-TV","channelDescription":"Semaroo TV - Indian entertainment channel with a vast library of Bollywood movies, songs, and TV shows.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779794145042_bYA3o1IgF.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2037,"channelName":"DANGAL","channelSlug":"DANGAL","channelDescription":"DANGAL - Popular Indian entertainment channel featuring drama series, reality shows, and family programming.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779794228071_KsqK_lN21.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2038,"channelName":"DANGAL 2","channelSlug":"DANGAL-2","channelDescription":"DANGAL 2 - Extended Dangal entertainment with more drama, comedy, and engaging Indian TV content.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779794267216_FKhrcvOGBy.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2039,"channelName":"BHOJPURI CINEMA","channelSlug":"BHOJPURI-CINEMA","channelDescription":"BHOJPURI CINEMA - Dedicated Bhojpuri movie channel showcasing Bhojpuri films, songs, and cultural content.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779794333067_4400UWczi.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2040,"channelName":"Channel Win","channelSlug":"Channel-Win","channelDescription":"Channel Win - Indian entertainment channel with winning content, shows, movies, and engaging programs.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779870358905_sgBtFEG98.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2041,"channelName":"OSCAR MOVIES","channelSlug":"OSCAR-MOVIES","channelDescription":"OSCAR MOVIES - Award-winning cinema channel featuring Oscar-nominated and critically acclaimed films 24/7.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779870471985_6GI0iB_35.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2042,"channelName":"Movie Club","channelSlug":"Movie-Club","channelDescription":"Movie Club - Exclusive movie channel on Samsung TV Plus with Hollywood blockbusters and premium films.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779870577558_aU_0algbAE.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2043,"channelName":"Tahzeeb Islamic","channelSlug":"Tahzeeb-Islamic","channelDescription":"Tahzeeb Islamic - Islamic educational channel with Quran teachings, Hadith, Naat, and spiritual content.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779870912165_ZE3Mpv84P.jpeg","category":"Islamic","port":"8087"},
+          {"channelId":2044,"channelName":"Enter10","channelSlug":"Enter10","channelDescription":"Enter10 - Indian entertainment channel featuring popular TV series, dramas, and engaging daily shows.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779871003580_rT5eq_lAe.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2045,"channelName":"FOOD FOOD","channelSlug":"FOOD-FOOD","channelDescription":"FOOD FOOD - India's first 24/7 food channel with cooking shows, recipes, culinary tours, and food culture.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779871210112_36a5GjQPD.jpeg","category":"Regional","port":"8087"},
+          {"channelId":2046,"channelName":"EPIC TV","channelSlug":"EPIC-TV","channelDescription":"EPIC TV - India's storytelling channel showcasing history, mythology, culture, and inspiring Indian stories.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779871274601_WEhRxUJiT.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2047,"channelName":"ABP NEWS","channelSlug":"ABP-NEWS","channelDescription":"ABP NEWS - Leading Indian news channel delivering breaking news, political coverage, and current affairs.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779871731280_PAW7cTLmz.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2048,"channelName":"AajTak News","channelSlug":"AajTak-News","channelDescription":"AajTak News - India's most-watched Hindi news channel with fastest breaking news and in-depth analysis.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779871830862_6KX8BmPH4.jpeg","category":"Indian","port":"8087"},
+          {"channelId":2049,"channelName":"NEWS 18 Punjabi","channelSlug":"NEWS-18-Punjabi","channelDescription":"NEWS 18 Punjabi - Regional news channel covering Punjab, Haryana, and HP with latest updates in Punjabi.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779871910945_x6aZpKNJVJ.jpeg","category":"Punjabi","port":"8087"},
+          {"channelId":2050,"channelName":"AL Jazeera","channelSlug":"AL-Jazeera-Direct","channelDescription":"AL Jazeera - International news network providing global news, documentaries, and current affairs coverage.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779871991679_Tye30v1uv.jpeg","category":"Regional","port":"8087"},
+          {"channelId":2051,"channelName":"DW NEWS","channelSlug":"DW-NEWS-Direct","channelDescription":"DW NEWS - Germany's international broadcaster delivering global news, analysis, and documentaries in English.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779872069830_WFxK0EdG3.jpeg","category":"Regional","port":"8087"},
+          {"channelId":2052,"channelName":"TRT WORLD","channelSlug":"TRT-WORLD","channelDescription":"TRT WORLD - Turkish international news channel with global perspective on news, politics, and culture.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779872148595_Si6hbPuhV.jpeg","category":"Regional","port":"8087"},
+          {"channelId":2053,"channelName":"CNBC TV18","channelSlug":"CNBC-TV18","channelDescription":"CNBC TV18 - India's leading business news channel with stock market updates, financial news, and market analysis.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779872419526_d07w1Tl2D.jpeg","category":"Regional","port":"8087"},
+          {"channelId":2054,"channelName":"CNBC TV18 PRIME","channelSlug":"CNBC-TV18-PRIME","channelDescription":"CNBC TV18 PRIME - Premium HD business news with in-depth market coverage, expert opinions, and corporate news.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779872520743_bFBp0H9vh.jpeg","category":"Regional","port":"8087"},
+          {"channelId":2055,"channelName":"GOOD NEWS","channelSlug":"GOOD-NEWS","channelDescription":"GOOD NEWS - Inspirational channel spreading positivity, uplifting stories, and good news from around the world.","logo":"https://ik.imagekit.io/shaban/SHABAN-1779872774646_RdF1JQATP.jpeg","category":"Regional","port":"8087"}
+        ]}, "code": 200
+      };
+
+      const channels = jsonData.data.channels;
+      let activeCategory = 'All';
+      let currentPlayingChannelId = null;
+      let activeHls = null;
+
+      const videoPlayer = document.getElementById('videoPlayer');
+      const nowPlaying = document.getElementById('nowPlaying');
+      const grid = document.getElementById('channelGrid');
+      const searchInput = document.getElementById('searchInput');
+      const clearBtn = document.getElementById('clearSearchBtn');
+      const categoryTabs = document.getElementById('categoryTabs');
+
+      const categories = ['All', 'Sports', 'News', 'Entertainment', 'Kids', 'Islamic', 'Music', 'Regional', 'Documentary', 'Indian', 'Punjabi'];
+
+      function destroyHls() {
+        if (activeHls) { activeHls.destroy(); activeHls = null; }
+      }
+
+      function loadDirectStream(directUrl, channelId) {
+        destroyHls();
+        videoPlayer.src = '';
+        
+        if (window.Hls && Hls.isSupported()) {
+          const hls = new Hls({
+            enableWorker: true,
+            lowLatencyMode: false,
+            xhrSetup: function(xhr) {
+              xhr.setRequestHeader("User-Agent", "Mozilla/5.0");
+            }
+          });
+          activeHls = hls;
+          hls.loadSource(directUrl);
+          hls.attachMedia(videoPlayer);
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            videoPlayer.play().catch(() => {});
+            updatePlayingClass(channelId);
+          });
+          hls.on(Hls.Events.ERROR, () => {
+            // error handling without status display
+          });
+        } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+          videoPlayer.src = directUrl;
+          videoPlayer.addEventListener('loadedmetadata', () => {
+            videoPlayer.play().catch(() => {});
+            updatePlayingClass(channelId);
+          });
+        } else {
+          videoPlayer.src = directUrl;
+          updatePlayingClass(channelId);
+        }
+      }
+
+      function loadStream(channelSlug, channelId, channelName) {
+        destroyHls();
+        videoPlayer.src = '';
+        nowPlaying.textContent = '▶ ' + channelName;
+
+        requestWakeLock();
+
+        if (directStreamChannels[channelSlug]) {
+          loadDirectStream(directStreamChannels[channelSlug], channelId);
+        } else {
+          // No stream found - silently fail
+        }
+      }
+
+      function updatePlayingClass(channelId) {
+        document.querySelectorAll('.channel-card.playing').forEach(c => c.classList.remove('playing'));
+        const activeCard = document.querySelector(`.channel-card[data-id="${channelId}"]`);
+        if (activeCard) activeCard.classList.add('playing');
+        currentPlayingChannelId = channelId;
+      }
+
+      function createChannelCard(channel) {
+        const card = document.createElement('div');
+        card.className = 'channel-card';
+        card.setAttribute('data-slug', channel.channelSlug || '');
+        card.setAttribute('data-name', channel.channelName || '');
+        card.setAttribute('data-id', channel.channelId);
+        card.setAttribute('data-port', channel.port || '8087');
+        card.setAttribute('data-category', channel.category || 'Other');
+        if (channel.channelId === currentPlayingChannelId) card.classList.add('playing');
+
+        const logoBox = document.createElement('div'); logoBox.className = 'logo-box';
+        const img = document.createElement('img'); img.src = channel.logo || ''; img.alt = channel.channelName; img.loading = 'lazy';
+        img.onerror = () => { img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"%3E%3Ccircle cx="12" cy="12" r="10" fill="%231a1a2a"/%3E%3Ctext x="12" y="16" text-anchor="middle" fill="%23f9a825" font-size="14"%3E📺%3C/text%3E%3C/svg%3E'; };
+        logoBox.appendChild(img);
+
+        const nameEl = document.createElement('div'); nameEl.className = 'channel-name'; nameEl.textContent = channel.channelName;
+        const descEl = document.createElement('div'); descEl.className = 'channel-desc'; descEl.textContent = channel.channelDescription || 'Live Channel';
+        const liveBadge = document.createElement('div'); liveBadge.className = 'live-badge'; liveBadge.textContent = '● LIVE';
+        
+        const viewBadge = document.createElement('div');
+        viewBadge.className = 'view-count-badge';
+
+        card.appendChild(logoBox); card.appendChild(nameEl); card.appendChild(descEl); 
+        card.appendChild(viewBadge); card.appendChild(liveBadge);
+
+        card.addEventListener('click', () => {
+          const slug = card.getAttribute('data-slug');
+          const channelName = card.getAttribute('data-name');
+          const channelId = parseInt(card.getAttribute('data-id'));
+          const category = card.getAttribute('data-category');
+          
+          if (slug) {
+            trackChannelView(channelName, slug, category);
+            loadStream(slug, channelId, channelName);
+            document.getElementById('playerWrapper').scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        });
+        return card;
+      }
+
+      function renderChannels(filteredChannels) {
+        grid.innerHTML = '';
+        if (!filteredChannels.length) {
+          grid.innerHTML = '<div class="no-results">😔 No channels found. Try a different search or category.</div>';
+          return;
+        }
+        filteredChannels.forEach(ch => grid.appendChild(createChannelCard(ch)));
+      }
+
+      function filterChannels() {
+        const query = searchInput.value.toLowerCase().trim();
+        let filtered = channels;
+        if (activeCategory !== 'All') {
+          filtered = filtered.filter(ch => (ch.category || 'Other') === activeCategory);
+        }
+        if (query) {
+          filtered = filtered.filter(ch => ch.channelName.toLowerCase().includes(query) || (ch.channelDescription || '').toLowerCase().includes(query));
+        }
+        renderChannels(filtered);
+      }
+
+      function buildCategoryTabs() {
+        categoryTabs.innerHTML = '';
+        categories.forEach(cat => {
+          const tab = document.createElement('span');
+          tab.className = 'cat-tab' + (cat === activeCategory ? ' active' : '');
+          tab.textContent = cat;
+          tab.addEventListener('click', () => {
+            activeCategory = cat;
+            document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            filterChannels();
+          });
+          categoryTabs.appendChild(tab);
+        });
+      }
+
+      videoPlayer.addEventListener('pause', () => { releaseWakeLock(); });
+      videoPlayer.addEventListener('play', () => { requestWakeLock(); });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          disableFallbackNoSleep();
+        } else {
+          if (!videoPlayer.paused && videoPlayer.src) requestWakeLock();
+        }
+      });
+
+      searchInput.addEventListener('input', filterChannels);
+      clearBtn.addEventListener('click', () => { searchInput.value = ''; filterChannels(); });
+
+      // ========== INIT ==========
+      buildCategoryTabs();
+      renderChannels(channels);
+      loadInitialData();
+
+      if (channels.length > 0 && channels[0].channelSlug) {
+        setTimeout(() => {
+          const ch = channels[0];
+          loadStream(ch.channelSlug, ch.channelId, ch.channelName);
+        }, 500);
+      }
+    })();
+  </script>
+</body>
+</html>
