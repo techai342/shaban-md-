@@ -466,6 +466,141 @@
       50% { opacity: 0.4; box-shadow: 0 0 8px #00ff99; }
     }
 
+
+
+    .admin-toggle {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 50;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 18px;
+      background: linear-gradient(135deg, #00e5ff, #f9a825, #ff6f00);
+      color: #05050a;
+      font-weight: 900;
+      box-shadow: 0 12px 34px rgba(249, 168, 37, 0.35);
+      cursor: pointer;
+    }
+
+    .admin-panel {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(3, 3, 8, 0.78);
+      backdrop-filter: blur(14px);
+    }
+
+    .admin-panel.open {
+      display: flex;
+    }
+
+    .admin-card {
+      width: min(980px, 100%);
+      max-height: 92vh;
+      overflow: auto;
+      border-radius: 26px;
+      background: linear-gradient(180deg, #171725, #0e0e18);
+      border: 1px solid rgba(249, 168, 37, 0.28);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+      padding: 18px;
+    }
+
+    .admin-header, .admin-actions, .admin-list-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .admin-header h2 {
+      color: #fff;
+      font-size: 1.35rem;
+    }
+
+    .admin-note {
+      margin: 8px 0 16px;
+      color: #aaa;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .admin-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .admin-field label {
+      display: block;
+      color: #f9a825;
+      font-size: 0.72rem;
+      font-weight: 800;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .admin-field input, .admin-field select, .admin-field textarea {
+      width: 100%;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #0b0b13;
+      color: #fff;
+      padding: 11px 13px;
+      outline: none;
+    }
+
+    .admin-field textarea {
+      min-height: 76px;
+      resize: vertical;
+    }
+
+    .admin-btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 10px 14px;
+      background: #242436;
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .admin-btn.primary {
+      background: linear-gradient(135deg, #f9a825, #ff6f00);
+      color: #05050a;
+    }
+
+    .admin-list {
+      margin-top: 16px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .admin-list-item {
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .admin-list-item strong {
+      color: #fff;
+    }
+
+    .admin-list-item small {
+      color: #999;
+    }
+
     @media (max-width: 480px) {
       .grid {
         grid-template-columns: repeat(2, 1fr);
@@ -485,6 +620,9 @@
       .search-box input {
         font-size: 0.85rem;
         padding: 10px 14px;
+      }
+      .admin-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -514,6 +652,59 @@
   <div class="category-tabs" id="categoryTabs"></div>
 
   <div class="grid" id="channelGrid"></div>
+
+
+  <button class="admin-toggle" id="adminToggle" type="button">⚙️ Admin</button>
+
+  <section class="admin-panel" id="adminPanel" aria-hidden="true">
+    <div class="admin-card" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+      <div class="admin-header">
+        <div>
+          <h2 id="adminTitle">Admin Panel</h2>
+          <p class="admin-note">Add, edit, delete, import, or export channels in this single HTML file app. Changes are saved in this browser with localStorage.</p>
+        </div>
+        <button class="admin-btn" id="adminClose" type="button">✕ Close</button>
+      </div>
+
+      <form id="adminForm" class="admin-grid">
+        <input type="hidden" id="adminChannelId">
+        <div class="admin-field">
+          <label for="adminName">Channel Name</label>
+          <input id="adminName" required placeholder="My Channel">
+        </div>
+        <div class="admin-field">
+          <label for="adminSlug">Slug</label>
+          <input id="adminSlug" required placeholder="My-Channel">
+        </div>
+        <div class="admin-field">
+          <label for="adminCategory">Category</label>
+          <select id="adminCategory"></select>
+        </div>
+        <div class="admin-field">
+          <label for="adminLogo">Logo URL</label>
+          <input id="adminLogo" placeholder="https://example.com/logo.png">
+        </div>
+        <div class="admin-field full">
+          <label for="adminStream">Direct M3U8 / Stream URL</label>
+          <input id="adminStream" required placeholder="https://example.com/live/playlist.m3u8">
+        </div>
+        <div class="admin-field full">
+          <label for="adminDescription">Description</label>
+          <textarea id="adminDescription" placeholder="Short channel description"></textarea>
+        </div>
+        <div class="admin-actions full">
+          <button class="admin-btn primary" type="submit">💾 Save Channel</button>
+          <button class="admin-btn" id="adminReset" type="button">↺ New</button>
+          <button class="admin-btn" id="adminExport" type="button">⬇ Export</button>
+          <label class="admin-btn" for="adminImport">⬆ Import</label>
+          <input id="adminImport" type="file" accept="application/json" hidden>
+          <button class="admin-btn" id="adminRestore" type="button">♻ Restore Default</button>
+        </div>
+      </form>
+
+      <div class="admin-list" id="adminList"></div>
+    </div>
+  </section>
 
   <div class="footer">
     <p>Shaban Md Tv - Watch 100+ Free Live TV Channels including PSL 2026, Geo News, ARY Digital, Hum TV, BBC News, Cartoon Network, Discovery HD, Islamic Channels, Regional Channels & more. No subscription, no data charges on Jazz SIM. Free 24/7 live streaming of Pakistani and international channels.</p>
@@ -1037,7 +1228,9 @@
         ]}, "code": 200
       };
 
-      const channels = jsonData.data.channels;
+      const defaultChannels = jsonData.data.channels;
+      const savedChannels = JSON.parse(localStorage.getItem('admin_channels') || 'null');
+      const channels = Array.isArray(savedChannels) ? savedChannels : [...defaultChannels];
       let activeCategory = 'All';
       let currentPlayingChannelId = null;
       let activeHls = null;
@@ -1048,8 +1241,21 @@
       const searchInput = document.getElementById('searchInput');
       const clearBtn = document.getElementById('clearSearchBtn');
       const categoryTabs = document.getElementById('categoryTabs');
+      const adminPanel = document.getElementById('adminPanel');
+      const adminForm = document.getElementById('adminForm');
+      const adminList = document.getElementById('adminList');
 
       const categories = ['All', 'Sports', 'News', 'Entertainment', 'Kids', 'Islamic', 'Music', 'Regional', 'Documentary', 'Indian', 'Punjabi'];
+
+      function saveAdminChannels() {
+        localStorage.setItem('admin_channels', JSON.stringify(channels));
+      }
+
+      function refreshChannelView() {
+        buildCategoryTabs();
+        filterChannels();
+        renderAdminList();
+      }
 
       function destroyHls() {
         if (activeHls) { activeHls.destroy(); activeHls = null; }
@@ -1201,7 +1407,126 @@
       searchInput.addEventListener('input', filterChannels);
       clearBtn.addEventListener('click', () => { searchInput.value = ''; filterChannels(); });
 
+
+
+      function openAdminPanel() {
+        adminPanel.classList.add('open');
+        adminPanel.setAttribute('aria-hidden', 'false');
+        renderAdminList();
+      }
+
+      function closeAdminPanel() {
+        adminPanel.classList.remove('open');
+        adminPanel.setAttribute('aria-hidden', 'true');
+      }
+
+      function resetAdminForm() {
+        adminForm.reset();
+        document.getElementById('adminChannelId').value = '';
+      }
+
+      function fillAdminCategories() {
+        const select = document.getElementById('adminCategory');
+        select.innerHTML = categories.filter(cat => cat !== 'All').map(cat => `<option value="${cat}">${cat}</option>`).join('');
+      }
+
+      function renderAdminList() {
+        if (!adminList) return;
+        adminList.innerHTML = channels.map(channel => `
+          <div class="admin-list-item">
+            <div><strong>${channel.channelName}</strong><br><small>${channel.category || 'Other'} • ${channel.channelSlug}</small></div>
+            <div>
+              <button class="admin-btn" type="button" data-admin-edit="${channel.channelId}">Edit</button>
+              <button class="admin-btn" type="button" data-admin-delete="${channel.channelId}">Delete</button>
+            </div>
+          </div>`).join('');
+      }
+
+      document.getElementById('adminToggle').addEventListener('click', openAdminPanel);
+      document.getElementById('adminClose').addEventListener('click', closeAdminPanel);
+      document.getElementById('adminReset').addEventListener('click', resetAdminForm);
+
+      adminForm.addEventListener('submit', event => {
+        event.preventDefault();
+        const idInput = document.getElementById('adminChannelId');
+        const existingId = parseInt(idInput.value);
+        const channel = {
+          channelId: existingId || Date.now(),
+          channelName: document.getElementById('adminName').value.trim(),
+          channelSlug: document.getElementById('adminSlug').value.trim(),
+          channelDescription: document.getElementById('adminDescription').value.trim() || 'Live Channel',
+          logo: document.getElementById('adminLogo').value.trim(),
+          category: document.getElementById('adminCategory').value,
+          port: '8087'
+        };
+        directStreamChannels[channel.channelSlug] = document.getElementById('adminStream').value.trim();
+        const index = channels.findIndex(item => item.channelId === channel.channelId);
+        if (index >= 0) channels[index] = channel; else channels.unshift(channel);
+        saveAdminChannels();
+        localStorage.setItem('admin_streams', JSON.stringify(directStreamChannels));
+        resetAdminForm();
+        refreshChannelView();
+      });
+
+      adminList.addEventListener('click', event => {
+        const editId = event.target.getAttribute('data-admin-edit');
+        const deleteId = event.target.getAttribute('data-admin-delete');
+        if (editId) {
+          const channel = channels.find(item => item.channelId === parseInt(editId));
+          if (!channel) return;
+          document.getElementById('adminChannelId').value = channel.channelId;
+          document.getElementById('adminName').value = channel.channelName || '';
+          document.getElementById('adminSlug').value = channel.channelSlug || '';
+          document.getElementById('adminCategory').value = channel.category || 'Entertainment';
+          document.getElementById('adminLogo').value = channel.logo || '';
+          document.getElementById('adminStream').value = directStreamChannels[channel.channelSlug] || '';
+          document.getElementById('adminDescription').value = channel.channelDescription || '';
+        }
+        if (deleteId && confirm('Delete this channel?')) {
+          const index = channels.findIndex(item => item.channelId === parseInt(deleteId));
+          if (index >= 0) channels.splice(index, 1);
+          saveAdminChannels();
+          refreshChannelView();
+        }
+      });
+
+      document.getElementById('adminExport').addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify({ channels, streams: directStreamChannels }, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'shaban-md-channels.json';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      document.getElementById('adminImport').addEventListener('change', event => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const imported = JSON.parse(reader.result);
+          if (Array.isArray(imported.channels)) {
+            channels.splice(0, channels.length, ...imported.channels);
+            Object.assign(directStreamChannels, imported.streams || {});
+            saveAdminChannels();
+            localStorage.setItem('admin_streams', JSON.stringify(directStreamChannels));
+            refreshChannelView();
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      document.getElementById('adminRestore').addEventListener('click', () => {
+        if (!confirm('Restore default channel list?')) return;
+        localStorage.removeItem('admin_channels');
+        localStorage.removeItem('admin_streams');
+        location.reload();
+      });
+
       // ========== INIT ==========
+      Object.assign(directStreamChannels, JSON.parse(localStorage.getItem('admin_streams') || '{}'));
+      fillAdminCategories();
       buildCategoryTabs();
       renderChannels(channels);
       loadInitialData();
