@@ -661,7 +661,7 @@
       <div class="admin-header">
         <div>
           <h2 id="adminTitle">Admin Panel</h2>
-          <p class="admin-note">Add, edit, delete, import, or export channels in this single HTML file app. Changes are saved in this browser with localStorage.</p>
+          <p class="admin-note">Add, edit, delete, import, or export channels from Supabase. Run the SQL setup query from the PR notes first, then every device will see the same admin changes.</p>
         </div>
         <button class="admin-btn" id="adminClose" type="button">✕ Close</button>
       </div>
@@ -714,13 +714,18 @@
   <script>
     (function() {
       // =============================================
-      // 🔥 JSONBIN.IO CONFIGURATION
+      // 🔥 SUPABASE CONFIGURATION
       // =============================================
-      const BIN_ID = '69fb7fb3c0954111d8e76120';
-      const MASTER_KEY = '$2a$10$232w0UsF/XfE3x5iv5UUdu/CibnAp3vM6NSl2UB4XLBYox6D1e.Om';
-      const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+      const SUPABASE_URL = 'https://fdsczrswgilxqrrwvkhz.supabase.co';
+      const SUPABASE_ANON_KEY = 'sb_publishable_lAZo20yHkbb-YzOVlOPDqQ_vHpD1nIz';
+      const SUPABASE_REST_URL = SUPABASE_URL + '/rest/v1';
+      const SUPABASE_HEADERS = {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: 'Bearer ' + SUPABASE_ANON_KEY,
+        'Content-Type': 'application/json'
+      };
       
-      let cachedData = null;
+      let cachedData = { total: 0, today: 0, date: getToday(), channels: {} };
 
       document.getElementById('currentYear').textContent = new Date().getFullYear();
 
@@ -728,42 +733,92 @@
         return new Date().toISOString().split('T')[0];
       }
 
-      // ========== READ FROM JSONBIN ==========
-      async function readBin() {
+      function toAppChannel(row) {
+        return {
+          channelId: Number(row.channel_id),
+          channelName: row.channel_name || '',
+          channelSlug: row.channel_slug || '',
+          channelDescription: row.channel_description || 'Live Channel',
+          logo: row.logo || '',
+          category: row.category || 'Entertainment',
+          port: row.port || '8087'
+        };
+      }
+
+      function toSupabaseChannel(channel, streamUrl) {
+        return {
+          channel_id: Number(channel.channelId) || Date.now(),
+          channel_name: channel.channelName,
+          channel_slug: channel.channelSlug,
+          channel_description: channel.channelDescription || 'Live Channel',
+          logo: channel.logo || '',
+          category: channel.category || 'Entertainment',
+          port: channel.port || '8087',
+          stream_url: streamUrl || ''
+        };
+      }
+
+      async function supabaseRequest(path, options = {}) {
+        const res = await fetch(SUPABASE_REST_URL + path, {
+          ...options,
+          headers: { ...SUPABASE_HEADERS, ...(options.headers || {}) }
+        });
+        if (!res.ok) throw new Error(await res.text());
+        if (res.status === 204) return null;
+        return res.json();
+      }
+
+      async function loadChannelsFromSupabase() {
         try {
-          const res = await fetch(API_URL + '/latest', {
-            headers: { 'X-Master-Key': MASTER_KEY }
+          const rows = await supabaseRequest('/channels?select=*&order=sort_order.asc,channel_id.asc');
+          if (!Array.isArray(rows) || rows.length === 0) return false;
+          channels.splice(0, channels.length, ...rows.map(toAppChannel));
+          rows.forEach(row => {
+            if (row.channel_slug && row.stream_url) directStreamChannels[row.channel_slug] = row.stream_url;
           });
-          const json = await res.json();
-          cachedData = json.record;
-          
-          if (cachedData.date !== getToday()) {
-            cachedData.today = 0;
-            cachedData.date = getToday();
-            await writeBin(cachedData);
-          }
-          
-          return cachedData;
-        } catch(e) {
-          console.log('⚠️ JSONBin offline, using cache');
-          return cachedData || { total: 0, today: 0, date: getToday(), channels: {} };
+          refreshChannelView();
+          return true;
+        } catch (e) {
+          console.log('⚠️ Supabase channels unavailable, using bundled channels', e);
+          return false;
         }
       }
 
-      // ========== WRITE TO JSONBIN ==========
-      async function writeBin(data) {
+      async function upsertChannelsToSupabase(channelList) {
+        const payload = channelList.map((channel, index) => ({
+          ...toSupabaseChannel(channel, directStreamChannels[channel.channelSlug]),
+          sort_order: index
+        }));
+        await supabaseRequest('/channels?on_conflict=channel_slug', {
+          method: 'POST',
+          headers: { Prefer: 'resolution=merge-duplicates' },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      async function seedDefaultChannelsToSupabase() {
         try {
-          await fetch(API_URL, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Master-Key': MASTER_KEY
-            },
-            body: JSON.stringify(data)
+          await upsertChannelsToSupabase(defaultChannels);
+          await loadChannelsFromSupabase();
+        } catch (e) {
+          console.log('⚠️ Could not seed Supabase channels. Run the SQL setup first.', e);
+        }
+      }
+
+      async function readStats() {
+        try {
+          const rows = await supabaseRequest('/channel_view_summary?select=*');
+          const data = { total: 0, today: 0, date: getToday(), channels: {} };
+          (rows || []).forEach(row => {
+            data.total += Number(row.total_views || 0);
+            data.today += Number(row.today_views || 0);
+            data.channels[row.channel_slug] = Number(row.total_views || 0);
           });
           cachedData = data;
+          return data;
         } catch(e) {
-          console.log('⚠️ Could not save to JSONBin');
+          console.log('⚠️ Supabase stats unavailable, using cache', e);
+          return cachedData;
         }
       }
 
@@ -779,18 +834,21 @@
         
         localStorage.setItem(lastTrackKey, now.toString());
         
-        const data = await readBin();
-        
-        data.total += 1;
-        data.today += 1;
-        data.date = getToday();
-        data.channels[channelSlug] = (data.channels[channelSlug] || 0) + 1;
-        
-        await writeBin(data);
-        
+        try {
+          await supabaseRequest('/rpc/track_channel_view', {
+            method: 'POST',
+            body: JSON.stringify({
+              p_channel_slug: channelSlug,
+              p_channel_name: channelName,
+              p_channel_category: channelCategory
+            })
+          });
+        } catch (e) {
+          console.log('⚠️ Could not track Supabase view', e);
+        }
+        const data = await readStats();
         updateStatsBar(data);
         updateViewCountBadges(data.channels);
-        
         console.log('✅ View tracked: ' + channelName + ' | Total: ' + data.total);
       }
 
@@ -814,14 +872,17 @@
 
       // ========== INITIAL LOAD ==========
       async function loadInitialData() {
-        const data = await readBin();
+        const hasSupabaseChannels = await loadChannelsFromSupabase();
+        if (!hasSupabaseChannels) await seedDefaultChannelsToSupabase();
+        const data = await readStats();
         updateStatsBar(data);
         if (data.channels) updateViewCountBadges(data.channels);
       }
 
       // ========== PERIODIC REFRESH (Every 10 sec) ==========
       setInterval(async () => {
-        const data = await readBin();
+        await loadChannelsFromSupabase();
+        const data = await readStats();
         updateStatsBar(data);
         if (data.channels) updateViewCountBadges(data.channels);
       }, 10000);
@@ -1229,8 +1290,7 @@
       };
 
       const defaultChannels = jsonData.data.channels;
-      const savedChannels = JSON.parse(localStorage.getItem('admin_channels') || 'null');
-      const channels = Array.isArray(savedChannels) ? savedChannels : [...defaultChannels];
+      const channels = [...defaultChannels];
       let activeCategory = 'All';
       let currentPlayingChannelId = null;
       let activeHls = null;
@@ -1246,10 +1306,6 @@
       const adminList = document.getElementById('adminList');
 
       const categories = ['All', 'Sports', 'News', 'Entertainment', 'Kids', 'Islamic', 'Music', 'Regional', 'Documentary', 'Indian', 'Punjabi'];
-
-      function saveAdminChannels() {
-        localStorage.setItem('admin_channels', JSON.stringify(channels));
-      }
 
       function refreshChannelView() {
         buildCategoryTabs();
@@ -1446,7 +1502,7 @@
       document.getElementById('adminClose').addEventListener('click', closeAdminPanel);
       document.getElementById('adminReset').addEventListener('click', resetAdminForm);
 
-      adminForm.addEventListener('submit', event => {
+      adminForm.addEventListener('submit', async event => {
         event.preventDefault();
         const idInput = document.getElementById('adminChannelId');
         const existingId = parseInt(idInput.value);
@@ -1459,16 +1515,25 @@
           category: document.getElementById('adminCategory').value,
           port: '8087'
         };
-        directStreamChannels[channel.channelSlug] = document.getElementById('adminStream').value.trim();
-        const index = channels.findIndex(item => item.channelId === channel.channelId);
-        if (index >= 0) channels[index] = channel; else channels.unshift(channel);
-        saveAdminChannels();
-        localStorage.setItem('admin_streams', JSON.stringify(directStreamChannels));
+        const streamUrl = document.getElementById('adminStream').value.trim();
+        directStreamChannels[channel.channelSlug] = streamUrl;
+        try {
+          await supabaseRequest('/channels?on_conflict=channel_id', {
+            method: 'POST',
+            headers: { Prefer: 'resolution=merge-duplicates' },
+            body: JSON.stringify(toSupabaseChannel(channel, streamUrl))
+          });
+          await loadChannelsFromSupabase();
+        } catch (e) {
+          console.log('⚠️ Supabase save failed; updating this browser only', e);
+          const index = channels.findIndex(item => item.channelId === channel.channelId);
+          if (index >= 0) channels[index] = channel; else channels.unshift(channel);
+          refreshChannelView();
+        }
         resetAdminForm();
-        refreshChannelView();
       });
 
-      adminList.addEventListener('click', event => {
+      adminList.addEventListener('click', async event => {
         const editId = event.target.getAttribute('data-admin-edit');
         const deleteId = event.target.getAttribute('data-admin-delete');
         if (editId) {
@@ -1483,10 +1548,15 @@
           document.getElementById('adminDescription').value = channel.channelDescription || '';
         }
         if (deleteId && confirm('Delete this channel?')) {
-          const index = channels.findIndex(item => item.channelId === parseInt(deleteId));
-          if (index >= 0) channels.splice(index, 1);
-          saveAdminChannels();
-          refreshChannelView();
+          try {
+            await supabaseRequest('/channels?channel_id=eq.' + encodeURIComponent(deleteId), { method: 'DELETE' });
+            await loadChannelsFromSupabase();
+          } catch (e) {
+            console.log('⚠️ Supabase delete failed; updating this browser only', e);
+            const index = channels.findIndex(item => item.channelId === parseInt(deleteId));
+            if (index >= 0) channels.splice(index, 1);
+            refreshChannelView();
+          }
         }
       });
 
@@ -1509,9 +1579,8 @@
           if (Array.isArray(imported.channels)) {
             channels.splice(0, channels.length, ...imported.channels);
             Object.assign(directStreamChannels, imported.streams || {});
-            saveAdminChannels();
-            localStorage.setItem('admin_streams', JSON.stringify(directStreamChannels));
             refreshChannelView();
+            upsertChannelsToSupabase(channels).then(loadChannelsFromSupabase).catch(e => console.log('⚠️ Supabase import failed', e));
           }
         };
         reader.readAsText(file);
@@ -1519,13 +1588,10 @@
 
       document.getElementById('adminRestore').addEventListener('click', () => {
         if (!confirm('Restore default channel list?')) return;
-        localStorage.removeItem('admin_channels');
-        localStorage.removeItem('admin_streams');
-        location.reload();
+        seedDefaultChannelsToSupabase();
       });
 
       // ========== INIT ==========
-      Object.assign(directStreamChannels, JSON.parse(localStorage.getItem('admin_streams') || '{}'));
       fillAdminCategories();
       buildCategoryTabs();
       renderChannels(channels);
